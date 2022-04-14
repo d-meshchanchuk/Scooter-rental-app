@@ -1,0 +1,466 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1.0.0" author="dmitry.meshchanchuk">
+
+        <createTable tableName="statuses">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.1" author="dmitry.meshchanchuk">
+        <createTable tableName="users">
+
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="username" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="first_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="last_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="created" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="updated" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="discount" type="INT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="status_id" type="BIGINT" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.2" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="status_id"
+                                 baseTableName="users"
+                                 constraintName="fk_users_status_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="statuses"/>
+    </changeSet>
+
+    <changeSet id="1.0.3" author="dmitry.meshchanchuk">
+        <createTable tableName="roles">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="created" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="updated" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="status_id" type="BIGINT" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.4" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="status_id"
+                                 baseTableName="roles"
+                                 constraintName="fk_roles_status"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="statuses"/>
+    </changeSet>
+
+    <changeSet id="1.0.5" author="dmitry.meshchanchuk">
+        <createTable tableName="user_roles">
+            <column name="user_id" type="BIGINT">
+            </column>
+
+            <column name="role_id" type="BIGINT">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.6" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="user_roles"
+                                 constraintName="fk_user_roles_user"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+
+    <changeSet id="1.0.7" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="role_id"
+                                 baseTableName="user_roles"
+                                 constraintName="fk_user_roles_roles"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="roles"/>
+    </changeSet>
+
+    <changeSet id="1.0.8" author="dmitry.meshchanchuk">
+        <createTable tableName="rental_point_parents">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="parent_id" type="BIGINT">
+                <constraints/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.9" author="dmitry.meshchanchuk">
+        <createTable tableName="rental_points">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="parent_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="location" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="latitude" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="longitude" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.10" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="parent_id"
+                                 baseTableName="rental_points"
+                                 constraintName="fk_rental_points_parent"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="rental_point_parents"/>
+    </changeSet>
+
+    <changeSet id="1.0.11" author="dmitry.meshchanchuk">
+        <createTable tableName="scooters">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="model" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="engine_hours" type="INT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.12" author="dmitry.meshchanchuk">
+        <createTable tableName="scooters_info">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="created" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="scooter_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="rental_points_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="engine_hours" type="INT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="status_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.13" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="scooter_id"
+                                 baseTableName="scooters_info"
+                                 constraintName="fk_scooters_info_scooter"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="scooters"/>
+    </changeSet>
+
+    <changeSet id="1.0.14" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="rental_points_id"
+                                 baseTableName="scooters_info"
+                                 constraintName="fk_scooters_info_rental_point"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="rental_points"/>
+    </changeSet>
+
+    <changeSet id="1.0.15" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="status_id"
+                                 baseTableName="scooters_info"
+                                 constraintName="fk_scooters_info_status"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="statuses"/>
+    </changeSet>
+
+    <changeSet id="1.0.16" author="dmitry.meshchanchuk">
+        <createTable tableName="tariffs">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.17" author="dmitry.meshchanchuk">
+        <createTable tableName="tariff_prices">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="created" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="tariff_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="hours" type="INT" defaultValue="0">
+
+            </column>
+
+            <column name="price_per_hour" type="DECIMAL(5,2)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.18" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="tariff_id"
+                                 baseTableName="tariff_prices"
+                                 constraintName="fk_tariff_prices_tariff"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tariffs"/>
+    </changeSet>
+
+    <changeSet id="1.0.19" author="dmitry.meshchanchuk">
+        <createTable tableName="orders">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="tariff_price_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="hours" type="INT">
+
+            </column>
+
+            <column name="price" type="DECIMAL(5,2)">
+
+            </column>
+
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="scooter_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="start_point_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="finish_point_id" type="BIGINT">
+
+            </column>
+
+            <column name="created" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="closed" type="TIMESTAMP" defaultValue="CURRENT_TIMESTAMP()">
+
+            </column>
+
+            <column name="status_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.20" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="status_id"
+                                 baseTableName="orders"
+                                 constraintName="fk_orders_status"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="statuses"/>
+    </changeSet>
+
+    <changeSet id="1.0.21" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="tariff_price_id"
+                                 baseTableName="orders"
+                                 constraintName="fk_orders_tariff_price"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tariff_prices"/>
+    </changeSet>
+
+    <changeSet id="1.0.22" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="orders"
+                                 constraintName="fk_orders_user"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+
+    <changeSet id="1.0.23" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="scooter_id"
+                                 baseTableName="orders"
+                                 constraintName="fk_orders_scooter"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="scooters"/>
+    </changeSet>
+
+    <changeSet id="1.0.24" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="start_point_id"
+                                 baseTableName="orders"
+                                 constraintName="fk_orders_start_point"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="rental_points"/>
+    </changeSet>
+
+    <changeSet id="1.0.25" author="dmitry.meshchanchuk">
+        <addForeignKeyConstraint baseColumnNames="finish_point_id"
+                                 baseTableName="orders"
+                                 constraintName="fk_orders_finish_point"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="rental_points"/>
+    </changeSet>
+
+
+
+<!--    <changeSet id="1.0.9" author="dmitry.meshchanchuk">-->
+<!--        <insert tableName="statuses">-->
+<!--            <column name="name" value="ACTIVE"/>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="1.0.8" author="dmitry.meshchanchuk">-->
+<!--        <insert tableName="roles">-->
+<!--            <column name="name" value="ROLE_USER"/>-->
+<!--            <column name="status_id" value="1"/>-->
+<!--        </insert>-->
+
+<!--        <insert tableName="roles">-->
+<!--            <column name="name" value="ROLE_ADMIN"/>-->
+<!--            <column name="status_id" value="1"/>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+
+
+<!--    <changeSet id="1.0.10" author="dmitry.meshchanchuk">-->
+<!--        <insert tableName="users">-->
+<!--            <column name="username" value="admin"/>-->
+<!--            <column name="email" value="admin@example.com"/>-->
+<!--            <column name="first_name" value="admin"/>-->
+<!--            <column name="last_name" value="admin"/>-->
+<!--            <column name="password" value="$2a$04$spwDY81EjaXUa1stQS3Tg.fzSyyNa6.otoCdRXOtIGUff18FREOIK"/>-->
+<!--            <column name="status_id" value="1"/>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet id="1.0.11" author="dmitry.meshchanchuk">-->
+<!--        <insert tableName="user_roles">-->
+<!--            <column name="user_id" value="1"/>-->
+<!--            <column name="role_id" value="2"/>-->
+<!--        </insert>-->
+<!--    </changeSet>-->
+
+
+
+</databaseChangeLog>
