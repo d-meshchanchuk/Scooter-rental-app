@@ -1,13 +1,15 @@
 package com.senla.scooterrentalapp.entity.scooter;
 
-import com.senla.scooterrentalapp.entity.BaseEntity;
+import com.senla.scooterrentalapp.entity.Status;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Builder
@@ -15,7 +17,15 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "scooters_info")
-public class ScootersInfo extends BaseEntity {
+public class ScootersInfo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @CreatedDate
+    @Column(name = "created")
+    private Date created;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "scooter_id")
@@ -27,4 +37,8 @@ public class ScootersInfo extends BaseEntity {
 
     @Column(name = "engine_hours")
     private Integer engineHours;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status status;
 }

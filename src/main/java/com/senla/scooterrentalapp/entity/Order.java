@@ -3,6 +3,7 @@ package com.senla.scooterrentalapp.entity;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
 import com.senla.scooterrentalapp.entity.scooter.Scooter;
 import com.senla.scooterrentalapp.entity.tariff.TariffPrices;
+import com.senla.scooterrentalapp.entity.user.BaseEntity;
 import com.senla.scooterrentalapp.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

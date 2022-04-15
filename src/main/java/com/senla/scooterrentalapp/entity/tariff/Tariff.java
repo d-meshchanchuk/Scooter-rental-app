@@ -1,27 +1,29 @@
 package com.senla.scooterrentalapp.entity.tariff;
 
-import com.senla.scooterrentalapp.entity.BaseEntity;
-import com.senla.scooterrentalapp.entity.user.User;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "tariffs")
 @Data
-public class Tariff extends BaseEntity {
+public class Tariff {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    private List<User> users;
+    @Column(name = "hours")
+    private Integer hours;
 
     @Override
     public String toString() {
         return "Tariff{" +
-                "id: " + super.getId() + ", " +
-                "name: " + name + "}";
+                "id: " + id + ", " +
+                "name: " + name +
+                "hours: " + hours + "}";
     }
 }

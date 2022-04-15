@@ -1,5 +1,6 @@
-package com.senla.scooterrentalapp.entity;
+package com.senla.scooterrentalapp.entity.user;
 
+import com.senla.scooterrentalapp.entity.Status;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

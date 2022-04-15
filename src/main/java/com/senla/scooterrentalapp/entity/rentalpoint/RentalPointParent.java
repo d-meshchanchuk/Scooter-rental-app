@@ -1,16 +1,17 @@
 package com.senla.scooterrentalapp.entity.rentalpoint;
 
-import com.senla.scooterrentalapp.entity.BaseEntity;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
 @Table(name = "rental_point_parents")
-public class RentalPointParent extends BaseEntity {
+public class RentalPointParent {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "name")
     private String name;

@@ -1,6 +1,5 @@
 package com.senla.scooterrentalapp.entity.rentalpoint;
 
-import com.senla.scooterrentalapp.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +13,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "rental_point_parents")
-public class RentalPoint extends BaseEntity {
+public class RentalPoint {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")

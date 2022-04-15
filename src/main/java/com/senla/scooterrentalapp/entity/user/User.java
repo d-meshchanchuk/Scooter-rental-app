@@ -1,6 +1,5 @@
 package com.senla.scooterrentalapp.entity.user;
 
-import com.senla.scooterrentalapp.entity.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.*;

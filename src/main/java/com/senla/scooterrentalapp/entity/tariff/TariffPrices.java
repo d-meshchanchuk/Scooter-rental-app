@@ -1,14 +1,23 @@
 package com.senla.scooterrentalapp.entity.tariff;
 
-import com.senla.scooterrentalapp.entity.BaseEntity;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "tariff_prices")
 @Data
-public class TariffPrices extends BaseEntity {
+public class TariffPrices {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @CreatedDate
+    @Column(name = "created")
+    private Date created;
 
     @Column(name = "name")
     private String name;
