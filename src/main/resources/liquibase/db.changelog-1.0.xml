@@ -4,21 +4,6 @@
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <changeSet id="1.0.0" author="dmitry.meshchanchuk">
-
-        <createTable tableName="statuses">
-
-            <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-
-            <column name="name" type="VARCHAR(100)">
-                <constraints nullable="false"/>
-            </column>
-
-        </createTable>
-    </changeSet>
-
-    <changeSet id="1.0.1" author="dmitry.meshchanchuk">
         <createTable tableName="users">
 
             <column name="id" type="BIGINT" autoIncrement="true">
@@ -57,24 +42,14 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="status_id" type="BIGINT" defaultValue="1">
+            <column name="status" type="VARCHAR(25)" defaultValue="ACTIVE">
                 <constraints nullable="false"/>
             </column>
 
         </createTable>
     </changeSet>
 
-    <changeSet id="1.0.2" author="dmitry.meshchanchuk">
-        <addForeignKeyConstraint baseColumnNames="status_id"
-                                 baseTableName="users"
-                                 constraintName="fk_users_status_id"
-                                 onDelete="CASCADE"
-                                 onUpdate="RESTRICT"
-                                 referencedColumnNames="id"
-                                 referencedTableName="statuses"/>
-    </changeSet>
-
-    <changeSet id="1.0.3" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.1" author="dmitry.meshchanchuk">
         <createTable tableName="roles">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -92,23 +67,10 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="status_id" type="BIGINT" defaultValue="1">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="1.0.4" author="dmitry.meshchanchuk">
-        <addForeignKeyConstraint baseColumnNames="status_id"
-                                 baseTableName="roles"
-                                 constraintName="fk_roles_status"
-                                 onDelete="CASCADE"
-                                 onUpdate="RESTRICT"
-                                 referencedColumnNames="id"
-                                 referencedTableName="statuses"/>
-    </changeSet>
-
-    <changeSet id="1.0.5" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.2" author="dmitry.meshchanchuk">
         <createTable tableName="user_roles">
             <column name="user_id" type="BIGINT">
             </column>
@@ -118,7 +80,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="1.0.6" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.3" author="dmitry.meshchanchuk">
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="user_roles"
                                  constraintName="fk_user_roles_user"
@@ -128,7 +90,7 @@
                                  referencedTableName="users"/>
     </changeSet>
 
-    <changeSet id="1.0.7" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.4" author="dmitry.meshchanchuk">
         <addForeignKeyConstraint baseColumnNames="role_id"
                                  baseTableName="user_roles"
                                  constraintName="fk_user_roles_roles"
@@ -138,7 +100,7 @@
                                  referencedTableName="roles"/>
     </changeSet>
 
-    <changeSet id="1.0.8" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.5" author="dmitry.meshchanchuk">
         <createTable tableName="rental_point_parents">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -154,7 +116,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="1.0.9" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.6" author="dmitry.meshchanchuk">
         <createTable tableName="rental_points">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -178,7 +140,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="1.0.10" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.7" author="dmitry.meshchanchuk">
         <addForeignKeyConstraint baseColumnNames="parent_id"
                                  baseTableName="rental_points"
                                  constraintName="fk_rental_points_parent"
@@ -188,7 +150,7 @@
                                  referencedTableName="rental_point_parents"/>
     </changeSet>
 
-    <changeSet id="1.0.11" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.8" author="dmitry.meshchanchuk">
         <createTable tableName="scooters">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -198,14 +160,14 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="engine_hours" type="INT" defaultValue="0">
+            <column name="power" type="INT" defaultValue="0">
                 <constraints nullable="false"/>
             </column>
 
         </createTable>
     </changeSet>
 
-    <changeSet id="1.0.12" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.9" author="dmitry.meshchanchuk">
         <createTable tableName="scooters_info">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -227,14 +189,14 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="status_id" type="BIGINT">
+            <column name="status" type="VARCHAR(25)" defaultValue="1">
                 <constraints nullable="false"/>
             </column>
 
         </createTable>
     </changeSet>
 
-    <changeSet id="1.0.13" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.10" author="dmitry.meshchanchuk">
         <addForeignKeyConstraint baseColumnNames="scooter_id"
                                  baseTableName="scooters_info"
                                  constraintName="fk_scooters_info_scooter"
@@ -244,7 +206,7 @@
                                  referencedTableName="scooters"/>
     </changeSet>
 
-    <changeSet id="1.0.14" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.11" author="dmitry.meshchanchuk">
         <addForeignKeyConstraint baseColumnNames="rental_points_id"
                                  baseTableName="scooters_info"
                                  constraintName="fk_scooters_info_rental_point"
@@ -254,17 +216,7 @@
                                  referencedTableName="rental_points"/>
     </changeSet>
 
-    <changeSet id="1.0.15" author="dmitry.meshchanchuk">
-        <addForeignKeyConstraint baseColumnNames="status_id"
-                                 baseTableName="scooters_info"
-                                 constraintName="fk_scooters_info_status"
-                                 onDelete="CASCADE"
-                                 onUpdate="RESTRICT"
-                                 referencedColumnNames="id"
-                                 referencedTableName="statuses"/>
-    </changeSet>
-
-    <changeSet id="1.0.16" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.12" author="dmitry.meshchanchuk">
         <createTable tableName="tariffs">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -274,10 +226,14 @@
                 <constraints nullable="false"/>
             </column>
 
+            <column name="hours" type="INT" defaultValue="0">
+
+            </column>
+
         </createTable>
     </changeSet>
 
-    <changeSet id="1.0.17" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.13" author="dmitry.meshchanchuk">
         <createTable tableName="tariff_prices">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -302,7 +258,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="1.0.18" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.14" author="dmitry.meshchanchuk">
         <addForeignKeyConstraint baseColumnNames="tariff_id"
                                  baseTableName="tariff_prices"
                                  constraintName="fk_tariff_prices_tariff"
@@ -312,7 +268,7 @@
                                  referencedTableName="tariffs"/>
     </changeSet>
 
-    <changeSet id="1.0.19" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.15" author="dmitry.meshchanchuk">
         <createTable tableName="orders">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -354,24 +310,14 @@
 
             </column>
 
-            <column name="status_id" type="BIGINT">
+            <column name="status" type="VARCHAR(25)" defaultValue="1">
                 <constraints nullable="false"/>
             </column>
 
         </createTable>
     </changeSet>
 
-    <changeSet id="1.0.20" author="dmitry.meshchanchuk">
-        <addForeignKeyConstraint baseColumnNames="status_id"
-                                 baseTableName="orders"
-                                 constraintName="fk_orders_status"
-                                 onDelete="CASCADE"
-                                 onUpdate="RESTRICT"
-                                 referencedColumnNames="id"
-                                 referencedTableName="statuses"/>
-    </changeSet>
-
-    <changeSet id="1.0.21" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.16" author="dmitry.meshchanchuk">
         <addForeignKeyConstraint baseColumnNames="tariff_price_id"
                                  baseTableName="orders"
                                  constraintName="fk_orders_tariff_price"
@@ -381,7 +327,7 @@
                                  referencedTableName="tariff_prices"/>
     </changeSet>
 
-    <changeSet id="1.0.22" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.17" author="dmitry.meshchanchuk">
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="orders"
                                  constraintName="fk_orders_user"
@@ -391,7 +337,7 @@
                                  referencedTableName="users"/>
     </changeSet>
 
-    <changeSet id="1.0.23" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.18" author="dmitry.meshchanchuk">
         <addForeignKeyConstraint baseColumnNames="scooter_id"
                                  baseTableName="orders"
                                  constraintName="fk_orders_scooter"
@@ -401,7 +347,7 @@
                                  referencedTableName="scooters"/>
     </changeSet>
 
-    <changeSet id="1.0.24" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.19" author="dmitry.meshchanchuk">
         <addForeignKeyConstraint baseColumnNames="start_point_id"
                                  baseTableName="orders"
                                  constraintName="fk_orders_start_point"
@@ -411,7 +357,7 @@
                                  referencedTableName="rental_points"/>
     </changeSet>
 
-    <changeSet id="1.0.25" author="dmitry.meshchanchuk">
+    <changeSet id="1.0.20" author="dmitry.meshchanchuk">
         <addForeignKeyConstraint baseColumnNames="finish_point_id"
                                  baseTableName="orders"
                                  constraintName="fk_orders_finish_point"
