@@ -223,7 +223,7 @@
     <changeSet id="1.0.12" author="dmitry.meshchanchuk">
         <createTable tableName="tariffs">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
 
             <column name="name" type="VARCHAR(50)">

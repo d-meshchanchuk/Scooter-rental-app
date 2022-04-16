@@ -1,12 +1,18 @@
 package com.senla.scooterrentalapp.entity.tariff;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tariff_prices")
 @Data
 public class TariffPrices {
@@ -18,9 +24,6 @@ public class TariffPrices {
     @CreatedDate
     @Column(name = "created")
     private Date created;
-
-    @Column(name = "name")
-    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tariff_id")

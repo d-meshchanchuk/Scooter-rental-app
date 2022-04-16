@@ -6,11 +6,9 @@ import java.util.List;
 
 public interface TariffService {
 
-    Tariff create(Tariff tariff);
+    Tariff save(Tariff tariff);
 
-    Tariff update(Tariff tariff);
-
-    Tariff delete(Long id);
+    void delete(Long id);
 
     List<Tariff> findAll();
 
