@@ -4,17 +4,16 @@ import com.senla.scooterrentalapp.entity.tariff.Tariff;
 import com.senla.scooterrentalapp.entity.tariff.TariffPrices;
 import com.senla.scooterrentalapp.repository.TariffPricesRepository;
 import com.senla.scooterrentalapp.service.TariffPricesService;
-import com.senla.scooterrentalapp.service.TariffService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
 @Slf4j
 public class TariffPricesServiceImpl implements TariffPricesService {
+
     private final TariffPricesRepository tariffPricesRepository;
 
     @Autowired
@@ -24,7 +23,7 @@ public class TariffPricesServiceImpl implements TariffPricesService {
 
     @Override
     public TariffPrices save(TariffPrices tariffPrices) {
-        log.info("IN create - tariffPrices: {} successfully created", tariffPrices);
+        log.info("IN save - tariffPrices: {} successfully created", tariffPrices);
         return tariffPricesRepository.save(tariffPrices);
     }
 
@@ -54,7 +53,8 @@ public class TariffPricesServiceImpl implements TariffPricesService {
     }
 
     @Override
-    public TariffPrices findByDate(Tariff tariff) {
+    public TariffPrices findCurrentTariff(Tariff tariff) {
+        log.info("IN findCurrent - tariffPrices: found current tariff {}", tariff);
         return tariffPricesRepository.findFirstByTariffOrderByIdDesc(tariff);
     }
 }

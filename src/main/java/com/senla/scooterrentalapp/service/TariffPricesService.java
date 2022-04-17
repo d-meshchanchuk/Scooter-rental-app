@@ -16,5 +16,5 @@ public interface TariffPricesService {
 
     List<TariffPrices> findAll();
 
-    TariffPrices findByDate(Tariff tariff);
+    TariffPrices findCurrentTariff(Tariff tariff);
 }

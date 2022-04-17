@@ -8,12 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/tariffPrices/")
 public class TariffPricesRestController {
+
     private final TariffPricesService tariffPricesService;
     private final TariffService tariffService;
 
@@ -36,7 +36,7 @@ public class TariffPricesRestController {
 
     @GetMapping(value = "current/{id}")
     public ResponseEntity<TariffPrices> getCurrentTariffPricesById(@PathVariable(name = "id") Long id) {
-        TariffPrices tariffPrices = tariffPricesService.findByDate(tariffService.findById(id));
+        TariffPrices tariffPrices = tariffPricesService.findCurrentTariff(tariffService.findById(id));
 
         if (tariffPrices == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

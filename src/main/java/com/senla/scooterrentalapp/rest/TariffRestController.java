@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping(value = "/api/tariffs/")
 public class TariffRestController {
+
     private final TariffService tariffService;
 
     @Autowired
@@ -55,5 +55,4 @@ public class TariffRestController {
         tariffService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }

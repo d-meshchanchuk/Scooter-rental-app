@@ -25,7 +25,7 @@ public class TariffServiceImpl implements TariffService {
     @Override
     public Tariff save(Tariff tariff) {
         tariffRepository.save(tariff);
-        log.info("IN create - tariff: {} successfully created", tariff);
+        log.info("IN save - tariff: {} successfully created", tariff);
         return tariff;
     }
 
