@@ -1,27 +1,17 @@
-package com.senla.scooterrentalapp.entity;
+package com.senla.scooterrentalapp.dto;
 
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
 import com.senla.scooterrentalapp.entity.scooter.Scooter;
 import com.senla.scooterrentalapp.entity.tariff.TariffPrices;
-import com.senla.scooterrentalapp.entity.user.BaseEntity;
 import com.senla.scooterrentalapp.entity.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-@Data
-@Builder
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "rental_point_parents")
-public class Order extends BaseEntity {
+public class OrderDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,4 +1,4 @@
-package com.senla.scooterrentalapp.dto;
+package com.senla.scooterrentalapp.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.senla.scooterrentalapp.entity.user.User;

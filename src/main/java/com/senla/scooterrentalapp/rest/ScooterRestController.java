@@ -1,5 +1,6 @@
 package com.senla.scooterrentalapp.rest;
 
+import com.senla.scooterrentalapp.dto.scooter.ScooterDto;
 import com.senla.scooterrentalapp.entity.scooter.Scooter;
 import com.senla.scooterrentalapp.service.ScooterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,16 @@ public class ScooterRestController {
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<Scooter> getTariffById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<ScooterDto> getTariffById(@PathVariable(name = "id") Long id) {
         Scooter scooter = scooterService.findById(id);
 
         if (scooter == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(scooter, HttpStatus.OK);
+        ScooterDto result = ScooterDto.fromScooter(scooter);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping()
@@ -43,8 +46,8 @@ public class ScooterRestController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody Scooter scooter) {
-        scooterService.save(scooter);
+    public ResponseEntity<?> save(@RequestBody ScooterDto scooterDto) {
+        scooterService.save(scooterDto.toScooter());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

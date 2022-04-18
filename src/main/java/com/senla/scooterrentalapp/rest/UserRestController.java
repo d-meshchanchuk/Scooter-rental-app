@@ -1,6 +1,6 @@
 package com.senla.scooterrentalapp.rest;
 
-import com.senla.scooterrentalapp.dto.UserDto;
+import com.senla.scooterrentalapp.dto.user.UserDto;
 import com.senla.scooterrentalapp.entity.user.User;
 import com.senla.scooterrentalapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
