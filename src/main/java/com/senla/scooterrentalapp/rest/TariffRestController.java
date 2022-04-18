@@ -1,5 +1,6 @@
 package com.senla.scooterrentalapp.rest;
 
+import com.senla.scooterrentalapp.dto.tariff.TariffDto;
 import com.senla.scooterrentalapp.entity.tariff.Tariff;
 import com.senla.scooterrentalapp.service.TariffPricesService;
 import com.senla.scooterrentalapp.service.TariffService;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,29 +24,35 @@ public class TariffRestController {
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<Tariff> getTariffById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<TariffDto> getTariffById(@PathVariable(name = "id") Long id) {
         Tariff tariff = tariffService.findById(id);
 
         if (tariff == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(tariff, HttpStatus.OK);
+        TariffDto result = TariffDto.fromTariff(tariff);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<List<Tariff>> getAll() {
+    public ResponseEntity<List<TariffDto>> getAll() {
         List<Tariff> tariffs = tariffService.findAll();
 
         if (tariffs == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(tariffs, HttpStatus.OK);
+        List<TariffDto> result = new ArrayList<>();
+        tariffs.forEach(tariff -> result.add(TariffDto.fromTariff(tariff)));
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody Tariff tariff) {
+    public ResponseEntity<?> save(@RequestBody TariffDto tariffDto) {
+        Tariff tariff = tariffDto.toTariff();
         tariffService.save(tariff);
         return new ResponseEntity<>(HttpStatus.OK);
         //todo какую ошибку отловить?

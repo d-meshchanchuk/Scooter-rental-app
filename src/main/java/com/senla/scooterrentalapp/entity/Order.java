@@ -11,14 +11,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "rental_point_parents")
-public class Order extends BaseEntity {
+@Table(name = "orders")
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +48,16 @@ public class Order extends BaseEntity {
     private RentalPoint startPoint;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "end_point_id")
+    @JoinColumn(name = "finish_point_id")
     private RentalPoint finishPoint;
+
+    @Column(name = "created")
+    private Date created;
+
+    @Column(name = "closed")
+    private Date closed;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status status;
 }

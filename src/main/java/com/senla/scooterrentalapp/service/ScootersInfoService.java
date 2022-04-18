@@ -4,8 +4,6 @@ import com.senla.scooterrentalapp.entity.Status;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
 import com.senla.scooterrentalapp.entity.scooter.Scooter;
 import com.senla.scooterrentalapp.entity.scooter.ScootersInfo;
-import com.senla.scooterrentalapp.entity.tariff.Tariff;
-import com.senla.scooterrentalapp.entity.tariff.TariffPrices;
 
 import java.util.List;
 

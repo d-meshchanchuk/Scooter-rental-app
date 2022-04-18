@@ -8,5 +8,5 @@ import lombok.Data;
 public class RentalPointParentDto {
     private Long id;
     private String name;
-    private Integer Long;
+    private Integer parentId;
 }

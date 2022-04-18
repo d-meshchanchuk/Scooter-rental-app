@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -90,6 +91,7 @@ public class ScootersInfoRestController {
     @PostMapping
     public ResponseEntity<?> save(@RequestBody ScootersInfoDto scootersInfoDto) {
         ScootersInfo scootersInfo = new ScootersInfo();
+        scootersInfo.setCreated(new Date());
         scootersInfo.setScooter(scooterService.findById(scootersInfoDto.getScooterId()));
         scootersInfo.setRentalPoint(rentalPointService.findById(scootersInfoDto.getRentalPointId()));
         scootersInfo.setEngineHours(scootersInfoDto.getEngineHours());

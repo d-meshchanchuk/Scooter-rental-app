@@ -1,42 +1,38 @@
 package com.senla.scooterrentalapp.dto;
 
-import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
-import com.senla.scooterrentalapp.entity.scooter.Scooter;
-import com.senla.scooterrentalapp.entity.tariff.TariffPrices;
-import com.senla.scooterrentalapp.entity.user.User;
+import com.senla.scooterrentalapp.entity.Order;
+import com.senla.scooterrentalapp.entity.Status;
+import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import java.util.Date;
 
+@Data
 public class OrderDto {
-
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tariff_price_id")
-    private TariffPrices tariffPrices;
-
-    @Column(name = "hours")
+    private Long tariffPricesId;
     private Integer hours;
-
-    @Column(name = "price")
     private Double price;
+    private Long userId;
+    private Long scooterId;
+    private Long startPointId;
+    private Long finishPointId;
+    private Date created;
+    private Date closed;
+    private Status status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    public static OrderDto fromOrder(Order order) {
+        OrderDto orderDto = new OrderDto();
+        orderDto.setId(order.getId());
+        orderDto.setTariffPricesId(order.getTariffPrices().getId());
+        orderDto.setHours(order.getHours());
+        orderDto.setPrice(order.getPrice());
+        orderDto.setScooterId(order.getScooter().getId());
+        orderDto.setStartPointId(order.getStartPoint().getId());
+        orderDto.setFinishPointId(order.getFinishPoint().getId());
+        orderDto.setCreated(order.getCreated());
+        orderDto.setClosed(order.getClosed());
+        orderDto.setStatus(order.getStatus());
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "scooter_id")
-    private Scooter scooter;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "start_point_id")
-    private RentalPoint startPoint;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "end_point_id")
-    private RentalPoint finishPoint;
+        return orderDto;
+    }
 }

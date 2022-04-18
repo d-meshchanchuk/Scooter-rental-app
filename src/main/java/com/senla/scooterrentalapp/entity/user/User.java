@@ -3,6 +3,7 @@ package com.senla.scooterrentalapp.entity.user;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
