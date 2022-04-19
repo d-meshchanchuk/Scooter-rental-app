@@ -1,5 +1,6 @@
 package com.senla.scooterrentalapp.rest;
 
+import com.senla.scooterrentalapp.dto.tariff.TariffPricesDto;
 import com.senla.scooterrentalapp.entity.tariff.TariffPrices;
 import com.senla.scooterrentalapp.service.TariffPricesService;
 import com.senla.scooterrentalapp.service.TariffService;
@@ -8,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -24,43 +27,55 @@ public class TariffPricesRestController {
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<TariffPrices> getTariffPricesById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<TariffPricesDto> getTariffPricesById(@PathVariable(name = "id") Long id) {
         TariffPrices tariffPrices = tariffPricesService.findById(id);
 
         if (tariffPrices == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(tariffPrices, HttpStatus.OK);
+        TariffPricesDto result = TariffPricesDto.fromTariffPrices(tariffPrices);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "current/{id}")
-    public ResponseEntity<TariffPrices> getCurrentTariffPricesById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<TariffPricesDto> getCurrentTariffPricesById(@PathVariable(name = "id") Long id) {
         TariffPrices tariffPrices = tariffPricesService.findCurrentTariff(tariffService.findById(id));
 
         if (tariffPrices == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(tariffPrices, HttpStatus.OK);
+        TariffPricesDto result = TariffPricesDto.fromTariffPrices(tariffPrices);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<List<TariffPrices>> getAll() {
+    public ResponseEntity<List<TariffPricesDto>> getAll() {
         List<TariffPrices> tariffPricesList = tariffPricesService.findAll();
 
         if (tariffPricesList == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(tariffPricesList, HttpStatus.OK);
+        List<TariffPricesDto> result = new ArrayList<>();
+        tariffPricesList.forEach(tariffPrices -> result.add(TariffPricesDto.fromTariffPrices(tariffPrices)));
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody TariffPrices tariffPrices) {
+    public ResponseEntity<?> save(@RequestBody TariffPricesDto tariffPricesDto) {
+        TariffPrices tariffPrices = TariffPrices.builder()
+                .created(new Date())
+                .tariff(tariffService.findById(tariffPricesDto.getTariffId()))
+                .hours(tariffPricesDto.getHours())
+                .pricePerHour(tariffPricesDto.getPricePerHour())
+                .build();
         tariffPricesService.save(tariffPrices);
         return new ResponseEntity<>(HttpStatus.OK);
-        //todo какую ошибку отловить?
     }
 
     @DeleteMapping(value = "{id}")

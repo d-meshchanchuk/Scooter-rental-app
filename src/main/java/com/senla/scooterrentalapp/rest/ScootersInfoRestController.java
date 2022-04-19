@@ -1,9 +1,9 @@
 package com.senla.scooterrentalapp.rest;
 
+import com.senla.scooterrentalapp.dto.scooter.ScooterDto;
 import com.senla.scooterrentalapp.dto.scooter.ScootersInfoDto;
 import com.senla.scooterrentalapp.entity.Status;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
-import com.senla.scooterrentalapp.entity.scooter.Scooter;
 import com.senla.scooterrentalapp.entity.scooter.ScootersInfo;
 import com.senla.scooterrentalapp.service.RentalPointService;
 import com.senla.scooterrentalapp.service.ScooterService;
@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,47 +46,59 @@ public class ScootersInfoRestController {
     }
 
     @GetMapping(value = "get/{scooter}")
-    public ResponseEntity<List<ScootersInfo>> getScootersInfoByScooter(@PathVariable(name = "scooter") Scooter scooter) {
-        List<ScootersInfo> scootersInfoList = scootersInfoService.findByScooter(scooter);
+    public ResponseEntity<List<ScootersInfoDto>> getScootersInfoByScooter(@PathVariable(name = "scooter") ScooterDto scooterDto) {
+        List<ScootersInfo> scootersInfoList = scootersInfoService.findByScooter(scooterDto.toScooter());
 
         if (scootersInfoList == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(scootersInfoList, HttpStatus.OK);
+        List<ScootersInfoDto> result = new ArrayList<>();
+        scootersInfoList.forEach(scootersInfo -> result.add(ScootersInfoDto.fromScooterInfo(scootersInfo)));
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "get/{status}")
-    public ResponseEntity<List<ScootersInfo>> getScootersInfoByStatus(@PathVariable(name = "status") Status status) {
+    public ResponseEntity<List<ScootersInfoDto>> getScootersInfoByStatus(@PathVariable(name = "status") Status status) {
         List<ScootersInfo> scootersInfoList = scootersInfoService.findByStatus(status);
 
         if (scootersInfoList == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(scootersInfoList, HttpStatus.OK);
+        List<ScootersInfoDto> result = new ArrayList<>();
+        scootersInfoList.forEach(scootersInfo -> result.add(ScootersInfoDto.fromScooterInfo(scootersInfo)));
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "get/{rentalPoint}")
-    public ResponseEntity<List<ScootersInfo>> getScootersInfoByRentalPoint(@PathVariable(name = "rentalPoint") RentalPoint rentalPoint) {
+    public ResponseEntity<List<ScootersInfoDto>> getScootersInfoByRentalPoint(@PathVariable(name = "rentalPoint") RentalPoint rentalPoint) {
         List<ScootersInfo> scootersInfoList = scootersInfoService.findByRentalPoint(rentalPoint);
 
         if (scootersInfoList == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(scootersInfoList, HttpStatus.OK);
+        List<ScootersInfoDto> result = new ArrayList<>();
+        scootersInfoList.forEach(scootersInfo -> result.add(ScootersInfoDto.fromScooterInfo(scootersInfo)));
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<List<ScootersInfo>> getAll() {
+    public ResponseEntity<List<ScootersInfoDto>> getAll() {
         List<ScootersInfo> scootersInfoList = scootersInfoService.findAll();
 
         if (scootersInfoList == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(scootersInfoList, HttpStatus.OK);
+        List<ScootersInfoDto> result = new ArrayList<>();
+        scootersInfoList.forEach(scootersInfo -> result.add(ScootersInfoDto.fromScooterInfo(scootersInfo)));
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping

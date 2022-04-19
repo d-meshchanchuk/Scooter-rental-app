@@ -1,6 +1,7 @@
 package com.senla.scooterrentalapp.rest;
 
 import com.senla.scooterrentalapp.dto.scooter.ScooterDto;
+import com.senla.scooterrentalapp.dto.scooter.ScootersInfoDto;
 import com.senla.scooterrentalapp.entity.scooter.Scooter;
 import com.senla.scooterrentalapp.service.ScooterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,14 +37,17 @@ public class ScooterRestController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Scooter>> getAll() {
+    public ResponseEntity<List<ScooterDto>> getAll() {
         List<Scooter> scooters = scooterService.findAll();
 
         if (scooters == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(scooters, HttpStatus.OK);
+        List<ScooterDto> result = new ArrayList<>();
+        scooters.forEach(scooter -> result.add(ScooterDto.fromScooter(scooter)));
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping
