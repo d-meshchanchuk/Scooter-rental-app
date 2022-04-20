@@ -1,7 +1,6 @@
 package com.senla.scooterrentalapp.rest;
 
 import com.senla.scooterrentalapp.dto.scooter.ScooterDto;
-import com.senla.scooterrentalapp.dto.scooter.ScootersInfoDto;
 import com.senla.scooterrentalapp.entity.scooter.Scooter;
 import com.senla.scooterrentalapp.service.ScooterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,39 +24,34 @@ public class ScooterRestController {
 
     @GetMapping(value = "{id}")
     public ResponseEntity<ScooterDto> getTariffById(@PathVariable(name = "id") Long id) {
-        Scooter scooter = scooterService.findById(id);
+        ScooterDto result = scooterService.findById(id);
 
-        if (scooter == null) {
+        if (result == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
-        ScooterDto result = ScooterDto.fromScooter(scooter);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping()
     public ResponseEntity<List<ScooterDto>> getAll() {
-        List<Scooter> scooters = scooterService.findAll();
+        List<ScooterDto> result = scooterService.findAll();
 
-        if (scooters == null) {
+        if (result == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
-        List<ScooterDto> result = new ArrayList<>();
-        scooters.forEach(scooter -> result.add(ScooterDto.fromScooter(scooter)));
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody ScooterDto scooterDto) {
-        scooterService.save(scooterDto.toScooter());
+    public ResponseEntity<Void> save(@RequestBody ScooterDto scooterDto) {
+        scooterService.save(scooterDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "{id}")
-    public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable(name = "id") Long id) {
         scooterService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

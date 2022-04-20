@@ -17,5 +17,5 @@ public class RentalPointParent {
     private String name;
 
     @Column(name = "parent_id")
-    private Integer Long;
+    private Long parentId;
 }

@@ -19,6 +19,9 @@ public class Tariff {
     @Column(name = "hours")
     private Integer hours;
 
+    @Column(name = "price_per_hour")
+    private Double pricePerHour;
+
     @Override
     public String toString() {
         return "Tariff{" +

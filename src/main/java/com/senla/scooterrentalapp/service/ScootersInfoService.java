@@ -1,5 +1,7 @@
 package com.senla.scooterrentalapp.service;
 
+import com.senla.scooterrentalapp.dto.scooter.ScooterDto;
+import com.senla.scooterrentalapp.dto.scooter.ScootersInfoDto;
 import com.senla.scooterrentalapp.entity.Status;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
 import com.senla.scooterrentalapp.entity.scooter.Scooter;
@@ -9,18 +11,18 @@ import java.util.List;
 
 public interface ScootersInfoService {
 
-    ScootersInfo save(ScootersInfo scootersInfo);
+    ScootersInfoDto save(ScootersInfoDto scootersInfo);
 
     void delete(Long id);
 
-    ScootersInfo findById(Long id);
+    ScootersInfoDto findById(Long id);
 
-    List<ScootersInfo> findAll();
+    List<ScootersInfoDto> findAll();
 
-    List<ScootersInfo> findByScooter(Scooter scooter);
+    List<ScootersInfoDto> findByScooter(ScooterDto scooterDto);
 
-    List<ScootersInfo> findByStatus(Status status);
+    List<ScootersInfoDto> findByStatus(Status status);
 
-    List<ScootersInfo> findByRentalPoint(RentalPoint rentalPoint);
+    List<ScootersInfoDto> findByRentalPoint(RentalPoint rentalPoint);
 
 }

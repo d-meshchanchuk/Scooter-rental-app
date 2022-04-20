@@ -1,5 +1,7 @@
 package com.senla.scooterrentalapp.service.impl;
 
+import com.senla.scooterrentalapp.dto.scooter.ScooterDto;
+import com.senla.scooterrentalapp.dto.scooter.ScootersInfoDto;
 import com.senla.scooterrentalapp.entity.scooter.Scooter;
 import com.senla.scooterrentalapp.repository.ScooterRepository;
 import com.senla.scooterrentalapp.service.ScooterService;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -21,10 +24,10 @@ public class ScooterServiceImpl implements ScooterService {
     }
 
     @Override
-    public Scooter save(Scooter scooter) {
-        scooterRepository.save(scooter);
-        log.info("IN save - scooter: {} successfully created", scooter);
-        return scooter;
+    public ScooterDto save(ScooterDto scooterDto) {
+        scooterRepository.save(scooterDto.toScooter());
+        log.info("IN save - scooter: {} successfully created", scooterDto);
+        return scooterDto;
     }
 
     @Override
@@ -34,20 +37,23 @@ public class ScooterServiceImpl implements ScooterService {
     }
 
     @Override
-    public List<Scooter> findAll() {
-        List<Scooter> result = scooterRepository.findAll();
+    public List<ScooterDto> findAll() {
+        List<Scooter> scooters = scooterRepository.findAll();
+        var result = scooters.stream().map(ScooterDto::fromScooter).collect(Collectors.toList());
         log.info("IN findAll - {} scooters found", result.size());
         return result;
     }
 
     @Override
-    public Scooter findById(Long id) {
-        Scooter result = scooterRepository.findById(id).orElse(null);
+    public ScooterDto findById(Long id) {
+        Scooter scooter = scooterRepository.findById(id).orElse(null);
 
-        if (result == null) {
+        if (scooter == null) {
             log.warn("IN findById - no scooter found by id: {}", id);
             return null;
         }
+
+        ScooterDto result = ScooterDto.fromScooter(scooter);
 
         log.info("IN findById - scooter: {} found by id: {}", result, id);
         return result;

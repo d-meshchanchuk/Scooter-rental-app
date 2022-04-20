@@ -23,7 +23,6 @@ public class ScootersInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @CreatedDate
     @Column(name = "created")
     private Date created;
 

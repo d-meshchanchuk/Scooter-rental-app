@@ -1,16 +1,17 @@
 package com.senla.scooterrentalapp.service;
 
+import com.senla.scooterrentalapp.dto.rentalpoint.RentalPointDto;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
 
 import java.util.List;
 
 public interface RentalPointService {
 
-    RentalPoint save(RentalPoint rentalPoint);
+    RentalPointDto save(RentalPointDto rentalPointDto);
 
     void delete(Long id);
 
-    List<RentalPoint> findAll();
+    List<RentalPointDto> findAll();
 
-    RentalPoint findById(Long id);
+    RentalPointDto findById(Long id);
 }

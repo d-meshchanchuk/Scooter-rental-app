@@ -1,9 +1,7 @@
 package com.senla.scooterrentalapp.dto.scooter;
 
 import com.senla.scooterrentalapp.entity.Status;
-import com.senla.scooterrentalapp.entity.scooter.Scooter;
 import com.senla.scooterrentalapp.entity.scooter.ScootersInfo;
-import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;

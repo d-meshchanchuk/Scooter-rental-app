@@ -1,15 +1,15 @@
 package com.senla.scooterrentalapp.service.impl;
 
+import com.senla.scooterrentalapp.dto.tariff.TariffDto;
 import com.senla.scooterrentalapp.entity.tariff.Tariff;
-import com.senla.scooterrentalapp.entity.tariff.TariffPrices;
 import com.senla.scooterrentalapp.repository.TariffRepository;
-import com.senla.scooterrentalapp.service.TariffPricesService;
 import com.senla.scooterrentalapp.service.TariffService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -18,15 +18,16 @@ public class TariffServiceImpl implements TariffService {
     private final TariffRepository tariffRepository;
 
     @Autowired
-    public TariffServiceImpl(TariffRepository tariffRepository, TariffPricesService tariffPricesService) {
+    public TariffServiceImpl(TariffRepository tariffRepository) {
         this.tariffRepository = tariffRepository;
     }
 
     @Override
-    public Tariff save(Tariff tariff) {
+    public TariffDto save(TariffDto tariffDto) {
+        Tariff tariff = tariffDto.toTariff();
         tariffRepository.save(tariff);
         log.info("IN save - tariff: {} successfully created", tariff);
-        return tariff;
+        return tariffDto;
     }
 
     @Override
@@ -36,20 +37,23 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public List<Tariff> findAll() {
-        List<Tariff> result = tariffRepository.findAll();
+    public List<TariffDto> findAll() {
+        List<Tariff> tariffs = tariffRepository.findAll();
+        var result = tariffs.stream().map(TariffDto::fromTariff).collect(Collectors.toList());
         log.info("IN findAll - {} tariffs found", result.size());
         return result;
     }
 
     @Override
-    public Tariff findById(Long id) {
-        Tariff result = tariffRepository.findById(id).orElse(null);
+    public TariffDto findById(Long id) {
+        Tariff tariff = tariffRepository.findById(id).orElse(null);
 
-        if (result == null) {
+        if (tariff == null) {
             log.warn("IN findById - no tariff found by id: {}", id);
             return null;
         }
+
+        TariffDto result = TariffDto.fromTariff(tariff);
 
         log.info("IN findById - tariff: {} found by id: {}", result, id);
         return result;

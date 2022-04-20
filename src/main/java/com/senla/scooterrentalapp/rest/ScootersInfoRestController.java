@@ -34,82 +34,62 @@ public class ScootersInfoRestController {
 
     @GetMapping(value = "{id}")
     public ResponseEntity<ScootersInfoDto> getScootersInfoById(@PathVariable(name = "id") Long id) {
-        ScootersInfo scootersInfo = scootersInfoService.findById(id);
+        ScootersInfoDto result = scootersInfoService.findById(id);
 
-        if (scootersInfo == null) {
+        if (result == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
-        ScootersInfoDto result = ScootersInfoDto.fromScooterInfo(scootersInfo);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "get/{scooter}")
     public ResponseEntity<List<ScootersInfoDto>> getScootersInfoByScooter(@PathVariable(name = "scooter") ScooterDto scooterDto) {
-        List<ScootersInfo> scootersInfoList = scootersInfoService.findByScooter(scooterDto.toScooter());
+        List<ScootersInfoDto> result = scootersInfoService.findByScooter(scooterDto);
 
-        if (scootersInfoList == null) {
+        if (result == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
-        List<ScootersInfoDto> result = new ArrayList<>();
-        scootersInfoList.forEach(scootersInfo -> result.add(ScootersInfoDto.fromScooterInfo(scootersInfo)));
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "get/{status}")
     public ResponseEntity<List<ScootersInfoDto>> getScootersInfoByStatus(@PathVariable(name = "status") Status status) {
-        List<ScootersInfo> scootersInfoList = scootersInfoService.findByStatus(status);
+        List<ScootersInfoDto> result = scootersInfoService.findByStatus(status);
 
-        if (scootersInfoList == null) {
+        if (result == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
-        List<ScootersInfoDto> result = new ArrayList<>();
-        scootersInfoList.forEach(scootersInfo -> result.add(ScootersInfoDto.fromScooterInfo(scootersInfo)));
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "get/{rentalPoint}")
     public ResponseEntity<List<ScootersInfoDto>> getScootersInfoByRentalPoint(@PathVariable(name = "rentalPoint") RentalPoint rentalPoint) {
-        List<ScootersInfo> scootersInfoList = scootersInfoService.findByRentalPoint(rentalPoint);
+        List<ScootersInfoDto> result = scootersInfoService.findByRentalPoint(rentalPoint);
 
-        if (scootersInfoList == null) {
+        if (result == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
-        List<ScootersInfoDto> result = new ArrayList<>();
-        scootersInfoList.forEach(scootersInfo -> result.add(ScootersInfoDto.fromScooterInfo(scootersInfo)));
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping()
     public ResponseEntity<List<ScootersInfoDto>> getAll() {
-        List<ScootersInfo> scootersInfoList = scootersInfoService.findAll();
+        List<ScootersInfoDto> result = scootersInfoService.findAll();
 
-        if (scootersInfoList == null) {
+        if (result == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
-        List<ScootersInfoDto> result = new ArrayList<>();
-        scootersInfoList.forEach(scootersInfo -> result.add(ScootersInfoDto.fromScooterInfo(scootersInfo)));
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> save(@RequestBody ScootersInfoDto scootersInfoDto) {
-        ScootersInfo scootersInfo = new ScootersInfo();
-        scootersInfo.setCreated(new Date());
-        scootersInfo.setScooter(scooterService.findById(scootersInfoDto.getScooterId()));
-        scootersInfo.setRentalPoint(rentalPointService.findById(scootersInfoDto.getRentalPointId()));
-        scootersInfo.setEngineHours(scootersInfoDto.getEngineHours());
-        scootersInfo.setStatus(scootersInfoDto.getStatus());
-        scootersInfoService.save(scootersInfo);
+        scootersInfoService.save(scootersInfoDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

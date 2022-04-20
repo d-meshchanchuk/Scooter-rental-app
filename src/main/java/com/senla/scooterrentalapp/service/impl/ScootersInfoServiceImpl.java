@@ -1,32 +1,51 @@
 package com.senla.scooterrentalapp.service.impl;
 
+import com.senla.scooterrentalapp.dto.scooter.ScooterDto;
+import com.senla.scooterrentalapp.dto.scooter.ScootersInfoDto;
+import com.senla.scooterrentalapp.dto.tariff.TariffDto;
 import com.senla.scooterrentalapp.entity.Status;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
 import com.senla.scooterrentalapp.entity.scooter.Scooter;
 import com.senla.scooterrentalapp.entity.scooter.ScootersInfo;
+import com.senla.scooterrentalapp.repository.RentalPointRepository;
+import com.senla.scooterrentalapp.repository.ScooterRepository;
 import com.senla.scooterrentalapp.repository.ScootersInfoRepository;
 import com.senla.scooterrentalapp.service.ScootersInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class ScootersInfoServiceImpl implements ScootersInfoService {
 
     private final ScootersInfoRepository scootersInfoRepository;
+    private final ScooterRepository scooterRepository;
+    private final RentalPointRepository rentalPointRepository;
 
     @Autowired
-    public ScootersInfoServiceImpl(ScootersInfoRepository scootersInfoRepository) {
+    public ScootersInfoServiceImpl(ScootersInfoRepository scootersInfoRepository, ScooterRepository scooterRepository, RentalPointRepository rentalPointRepository) {
         this.scootersInfoRepository = scootersInfoRepository;
+        this.scooterRepository = scooterRepository;
+        this.rentalPointRepository = rentalPointRepository;
     }
 
     @Override
-    public ScootersInfo save(ScootersInfo scootersInfo) {
+    public ScootersInfoDto save(ScootersInfoDto scootersInfoDto) {
+        ScootersInfo scootersInfo = ScootersInfo.builder()
+                .id(scootersInfoDto.getId())
+                .created(new Date())
+                .scooter(scooterRepository.getById(scootersInfoDto.getScooterId()))
+                .engineHours(scootersInfoDto.getEngineHours())
+                .rentalPoint(rentalPointRepository.getById(scootersInfoDto.getRentalPointId()))
+                .status(scootersInfoDto.getStatus()).build();
         log.info("IN save - tariffPrices: {} successfully created", scootersInfo);
-        return scootersInfoRepository.save(scootersInfo);
+        scootersInfoRepository.save(scootersInfo);
+        return scootersInfoDto;
     }
 
     @Override
@@ -36,42 +55,48 @@ public class ScootersInfoServiceImpl implements ScootersInfoService {
     }
 
     @Override
-    public ScootersInfo findById(Long id) {
-        ScootersInfo result = scootersInfoRepository.findById(id).orElse(null);
+    public ScootersInfoDto findById(Long id) {
+        ScootersInfo scootersInfo = scootersInfoRepository.findById(id).orElse(null);
 
-        if (result == null) {
+        if (scootersInfo == null) {
             log.warn("IN findById - no scootersInfo found by id: {}", id);
             return null;
         }
+
+        ScootersInfoDto result = ScootersInfoDto.fromScooterInfo(scootersInfo);
 
         log.info("IN findById - scootersInfo: {} found by id: {}", result, id);
         return result;
     }
 
     @Override
-    public List<ScootersInfo> findAll() {
-        List<ScootersInfo> result = scootersInfoRepository.findAll();
+    public List<ScootersInfoDto> findAll() {
+        List<ScootersInfo> scootersInfoList = scootersInfoRepository.findAll();
+        var result = scootersInfoList.stream().map(ScootersInfoDto::fromScooterInfo).collect(Collectors.toList());
         log.info("IN findAll - {} scootersInfo found", result.size());
         return result;
     }
 
     @Override
-    public List<ScootersInfo> findByScooter(Scooter scooter) {
-        List<ScootersInfo> result = scootersInfoRepository.findByScooter(scooter);
+    public List<ScootersInfoDto> findByScooter(ScooterDto scooterDto) {
+        List<ScootersInfo> scootersInfoList = scootersInfoRepository.findByScooter(scooterDto.toScooter());
+        var result = scootersInfoList.stream().map(ScootersInfoDto::fromScooterInfo).collect(Collectors.toList());
         log.info("IN findByScooter - {} scootersInfo found", result.size());
         return result;
     }
 
     @Override
-    public List<ScootersInfo> findByStatus(Status status) {
-        List<ScootersInfo> result = scootersInfoRepository.findByStatus(status);
+    public List<ScootersInfoDto> findByStatus(Status status) {
+        List<ScootersInfo> scootersInfoList = scootersInfoRepository.findByStatus(status);
+        var result = scootersInfoList.stream().map(ScootersInfoDto::fromScooterInfo).collect(Collectors.toList());
         log.info("IN findByStatus - {} scootersInfo found", result.size());
         return result;
     }
 
     @Override
-    public List<ScootersInfo> findByRentalPoint(RentalPoint rentalPoint) {
-        List<ScootersInfo> result = scootersInfoRepository.findByRentalPoint(rentalPoint);
+    public List<ScootersInfoDto> findByRentalPoint(RentalPoint rentalPoint) {
+        List<ScootersInfo> scootersInfoList = scootersInfoRepository.findByRentalPoint(rentalPoint);
+        var result = scootersInfoList.stream().map(ScootersInfoDto::fromScooterInfo).collect(Collectors.toList());
         log.info("IN findByRentalPoint - {} scootersInfo found", result.size());
         return result;
     }

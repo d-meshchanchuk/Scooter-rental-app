@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 public class OrderDto {
     private Long id;
-    private Long tariffPricesId;
+    private Long tariffId;
     private Integer hours;
     private Double price;
     private Long userId;
@@ -23,7 +23,7 @@ public class OrderDto {
     public static OrderDto fromOrder(Order order) {
         OrderDto orderDto = new OrderDto();
         orderDto.setId(order.getId());
-        orderDto.setTariffPricesId(order.getTariffPrices().getId());
+        orderDto.setTariffId(order.getTariff().getId());
         orderDto.setHours(order.getHours());
         orderDto.setPrice(order.getPrice());
         orderDto.setScooterId(order.getScooter().getId());

@@ -3,7 +3,10 @@ package com.senla.scooterrentalapp.rest;
 import com.senla.scooterrentalapp.dto.OrderDto;
 import com.senla.scooterrentalapp.dto.user.UserDto;
 import com.senla.scooterrentalapp.entity.Order;
-import com.senla.scooterrentalapp.service.*;
+import com.senla.scooterrentalapp.service.OrderService;
+import com.senla.scooterrentalapp.service.RentalPointService;
+import com.senla.scooterrentalapp.service.ScooterService;
+import com.senla.scooterrentalapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +21,13 @@ import java.util.List;
 public class OrderRestController {
 
     private final OrderService orderService;
-    private final TariffPricesService tariffPricesService;
     private final ScooterService scooterService;
     private final UserService userService;
     private final RentalPointService rentalPointService;
 
     @Autowired
-    public OrderRestController(OrderService orderService, TariffPricesService tariffPricesService, ScooterService scooterService, UserService userService, RentalPointService rentalPointService) {
+    public OrderRestController(OrderService orderService, ScooterService scooterService, UserService userService, RentalPointService rentalPointService) {
         this.orderService = orderService;
-        this.tariffPricesService = tariffPricesService;
         this.scooterService = scooterService;
         this.userService = userService;
         this.rentalPointService = rentalPointService;
@@ -76,13 +77,13 @@ public class OrderRestController {
     @PostMapping
     public ResponseEntity<?> save(@RequestBody OrderDto orderDto) {
         Order order = new Order();
-        order.setTariffPrices(tariffPricesService.findById(orderDto.getTariffPricesId()));
+        //order.se(tariffPricesService.findById(orderDto.getTariffPricesId()));
         order.setHours(orderDto.getHours());
         order.setPrice(orderDto.getPrice());
         order.setUser(userService.findById(orderDto.getUserId()));
-        order.setScooter(scooterService.findById(orderDto.getScooterId()));
-        order.setStartPoint(rentalPointService.findById(orderDto.getStartPointId()));
-        order.setFinishPoint(rentalPointService.findById(orderDto.getFinishPointId()));
+//        order.setScooter(scooterService.findById(orderDto.getScooterId()));
+//        order.setStartPoint(rentalPointService.findById(orderDto.getStartPointId()));
+//        order.setFinishPoint(rentalPointService.findById(orderDto.getFinishPointId()));
         order.setCreated(new Date());
         order.setStatus(orderDto.getStatus());
 

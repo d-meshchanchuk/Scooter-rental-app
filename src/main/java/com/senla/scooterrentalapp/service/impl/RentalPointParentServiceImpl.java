@@ -1,5 +1,7 @@
 package com.senla.scooterrentalapp.service.impl;
 
+import com.senla.scooterrentalapp.dto.rentalpoint.RentalPointDto;
+import com.senla.scooterrentalapp.dto.rentalpoint.RentalPointParentDto;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPointParent;
 import com.senla.scooterrentalapp.repository.RentalPointParentRepository;
 import com.senla.scooterrentalapp.service.RentalPointParentService;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -21,10 +24,10 @@ public class RentalPointParentServiceImpl implements RentalPointParentService {
     }
 
     @Override
-    public RentalPointParent save(RentalPointParent rentalPointParent) {
-        rentalPointParentRepository.save(rentalPointParent);
-        log.info("IN save - rentalPointParent: {} successfully created", rentalPointParent);
-        return rentalPointParent;
+    public RentalPointParentDto save(RentalPointParentDto rentalPointParentDto) {
+        rentalPointParentRepository.save(rentalPointParentDto.toRentalPointParent());
+        log.info("IN save - rentalPointParent: {} successfully created", rentalPointParentDto);
+        return rentalPointParentDto;
     }
 
     @Override
@@ -34,20 +37,23 @@ public class RentalPointParentServiceImpl implements RentalPointParentService {
     }
 
     @Override
-    public List<RentalPointParent> findAll() {
-        List<RentalPointParent> result = rentalPointParentRepository.findAll();
+    public List<RentalPointParentDto> findAll() {
+        List<RentalPointParent> rentalPointParents = rentalPointParentRepository.findAll();
+        var result = rentalPointParents.stream().map(RentalPointParentDto::fromRentalPointParent).collect(Collectors.toList());
         log.info("IN findAll - {} rentalPointParents found", result.size());
         return result;
     }
 
     @Override
-    public RentalPointParent findById(Long id) {
-        RentalPointParent result = rentalPointParentRepository.findById(id).orElse(null);
+    public RentalPointParentDto findById(Long id) {
+        RentalPointParent rentalPointParents = rentalPointParentRepository.findById(id).orElse(null);
 
-        if (result == null) {
+        if (rentalPointParents == null) {
             log.warn("IN findById - no rentalPointParent found by id: {}", id);
             return null;
         }
+
+        RentalPointParentDto result = RentalPointParentDto.fromRentalPointParent(rentalPointParents);
 
         log.info("IN findById - rentalPointParent: {} found by id: {}", result, id);
         return result;
