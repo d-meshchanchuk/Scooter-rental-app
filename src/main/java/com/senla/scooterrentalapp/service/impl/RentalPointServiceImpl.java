@@ -5,8 +5,8 @@ import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
 import com.senla.scooterrentalapp.repository.RentalPointParentRepository;
 import com.senla.scooterrentalapp.repository.RentalPointRepository;
 import com.senla.scooterrentalapp.service.RentalPointService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,16 +14,11 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class RentalPointServiceImpl implements RentalPointService {
 
     private final RentalPointRepository rentalPointRepository;
     private final RentalPointParentRepository rentalPointParentRepository;
-
-    @Autowired
-    public RentalPointServiceImpl(RentalPointRepository rentalPointRepository, RentalPointParentRepository rentalPointParentRepository) {
-        this.rentalPointRepository = rentalPointRepository;
-        this.rentalPointParentRepository = rentalPointParentRepository;
-    }
 
     @Override
     public RentalPointDto save(RentalPointDto rentalPointDto) {

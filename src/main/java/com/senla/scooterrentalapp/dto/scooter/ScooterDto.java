@@ -11,6 +11,7 @@ public class ScooterDto {
 
     public Scooter toScooter() {
         Scooter scooter = new Scooter();
+        scooter.setId(id);
         scooter.setModel(model);
         scooter.setPower(power);
 

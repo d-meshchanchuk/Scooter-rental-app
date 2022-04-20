@@ -1,22 +1,25 @@
 package com.senla.scooterrentalapp.service;
 
+import com.senla.scooterrentalapp.dto.OrderDto;
+import com.senla.scooterrentalapp.dto.user.UserDto;
 import com.senla.scooterrentalapp.entity.Order;
-import com.senla.scooterrentalapp.entity.user.User;
 
 import java.util.List;
 
 public interface OrderService {
 
-    Order save(Order order);
+    OrderDto save(OrderDto orderDto);
 
-    Order update(Order order);
+    void calculatePrice(Order order);
+
+    void calculateDiscount(Order order);
 
     void delete(Long id);
 
-    Order findById(Long id);
+    OrderDto findById(Long id);
 
-    List<Order> findAll();
+    List<OrderDto> findAll();
 
-    List<Order> findByUser(User user);
+    List<OrderDto> findByUser(UserDto userDto);
 
 }

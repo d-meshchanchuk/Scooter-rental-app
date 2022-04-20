@@ -2,23 +2,19 @@ package com.senla.scooterrentalapp.rest;
 
 import com.senla.scooterrentalapp.dto.tariff.TariffDto;
 import com.senla.scooterrentalapp.service.TariffService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/tariffs/")
 public class TariffRestController {
 
     private final TariffService tariffService;
-
-    @Autowired
-    public TariffRestController(TariffService tariffService) {
-        this.tariffService = tariffService;
-    }
 
     @GetMapping(value = "{id}")
     public ResponseEntity<TariffDto> getTariffById(@PathVariable(name = "id") Long id) {

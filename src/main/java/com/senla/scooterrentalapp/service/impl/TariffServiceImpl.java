@@ -4,8 +4,8 @@ import com.senla.scooterrentalapp.dto.tariff.TariffDto;
 import com.senla.scooterrentalapp.entity.tariff.Tariff;
 import com.senla.scooterrentalapp.repository.TariffRepository;
 import com.senla.scooterrentalapp.service.TariffService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,14 +13,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class TariffServiceImpl implements TariffService {
 
     private final TariffRepository tariffRepository;
-
-    @Autowired
-    public TariffServiceImpl(TariffRepository tariffRepository) {
-        this.tariffRepository = tariffRepository;
-    }
 
     @Override
     public TariffDto save(TariffDto tariffDto) {

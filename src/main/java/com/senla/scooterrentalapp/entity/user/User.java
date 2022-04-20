@@ -25,6 +25,9 @@ public class User extends BaseEntity {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "discount")
+    private Integer discount;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},

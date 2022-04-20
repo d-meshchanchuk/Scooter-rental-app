@@ -1,27 +1,20 @@
 package com.senla.scooterrentalapp.rest;
 
 import com.senla.scooterrentalapp.dto.rentalpoint.RentalPointDto;
-import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
-import com.senla.scooterrentalapp.service.RentalPointParentService;
 import com.senla.scooterrentalapp.service.RentalPointService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/rentalPoints/")
 public class RentalPointRestController {
 
     private final RentalPointService rentalPointService;
-
-    @Autowired
-    public RentalPointRestController(RentalPointService rentalPointService, RentalPointParentService rentalPointParentService) {
-        this.rentalPointService = rentalPointService;
-    }
 
     @GetMapping(value = "{id}")
     public ResponseEntity<RentalPointDto> getRentalPointById(@PathVariable(name = "id") Long id) {

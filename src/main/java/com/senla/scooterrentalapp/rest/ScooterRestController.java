@@ -1,26 +1,20 @@
 package com.senla.scooterrentalapp.rest;
 
 import com.senla.scooterrentalapp.dto.scooter.ScooterDto;
-import com.senla.scooterrentalapp.entity.scooter.Scooter;
 import com.senla.scooterrentalapp.service.ScooterService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/scooters/")
 public class ScooterRestController {
 
     public final ScooterService scooterService;
-
-    @Autowired
-    public ScooterRestController(ScooterService scooterService) {
-        this.scooterService = scooterService;
-    }
 
     @GetMapping(value = "{id}")
     public ResponseEntity<ScooterDto> getTariffById(@PathVariable(name = "id") Long id) {

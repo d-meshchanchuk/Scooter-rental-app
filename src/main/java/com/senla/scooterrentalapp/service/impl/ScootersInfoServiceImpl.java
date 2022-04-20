@@ -2,17 +2,15 @@ package com.senla.scooterrentalapp.service.impl;
 
 import com.senla.scooterrentalapp.dto.scooter.ScooterDto;
 import com.senla.scooterrentalapp.dto.scooter.ScootersInfoDto;
-import com.senla.scooterrentalapp.dto.tariff.TariffDto;
 import com.senla.scooterrentalapp.entity.Status;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
-import com.senla.scooterrentalapp.entity.scooter.Scooter;
 import com.senla.scooterrentalapp.entity.scooter.ScootersInfo;
 import com.senla.scooterrentalapp.repository.RentalPointRepository;
 import com.senla.scooterrentalapp.repository.ScooterRepository;
 import com.senla.scooterrentalapp.repository.ScootersInfoRepository;
 import com.senla.scooterrentalapp.service.ScootersInfoService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -21,18 +19,12 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class ScootersInfoServiceImpl implements ScootersInfoService {
 
     private final ScootersInfoRepository scootersInfoRepository;
     private final ScooterRepository scooterRepository;
     private final RentalPointRepository rentalPointRepository;
-
-    @Autowired
-    public ScootersInfoServiceImpl(ScootersInfoRepository scootersInfoRepository, ScooterRepository scooterRepository, RentalPointRepository rentalPointRepository) {
-        this.scootersInfoRepository = scootersInfoRepository;
-        this.scooterRepository = scooterRepository;
-        this.rentalPointRepository = rentalPointRepository;
-    }
 
     @Override
     public ScootersInfoDto save(ScootersInfoDto scootersInfoDto) {

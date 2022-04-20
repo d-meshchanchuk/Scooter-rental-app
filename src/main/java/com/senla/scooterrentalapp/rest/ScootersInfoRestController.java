@@ -4,33 +4,20 @@ import com.senla.scooterrentalapp.dto.scooter.ScooterDto;
 import com.senla.scooterrentalapp.dto.scooter.ScootersInfoDto;
 import com.senla.scooterrentalapp.entity.Status;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
-import com.senla.scooterrentalapp.entity.scooter.ScootersInfo;
-import com.senla.scooterrentalapp.service.RentalPointService;
-import com.senla.scooterrentalapp.service.ScooterService;
 import com.senla.scooterrentalapp.service.ScootersInfoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/scootersInfo/")
 public class ScootersInfoRestController {
 
     private final ScootersInfoService scootersInfoService;
-    private final ScooterService scooterService;
-    private final RentalPointService rentalPointService;
-
-    @Autowired
-    public ScootersInfoRestController(ScootersInfoService scootersInfoService, ScooterService scooterService, RentalPointService rentalPointService) {
-        this.scootersInfoService = scootersInfoService;
-        this.scooterService = scooterService;
-        this.rentalPointService = rentalPointService;
-    }
 
     @GetMapping(value = "{id}")
     public ResponseEntity<ScootersInfoDto> getScootersInfoById(@PathVariable(name = "id") Long id) {

@@ -1,12 +1,11 @@
 package com.senla.scooterrentalapp.service.impl;
 
-import com.senla.scooterrentalapp.dto.rentalpoint.RentalPointDto;
 import com.senla.scooterrentalapp.dto.rentalpoint.RentalPointParentDto;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPointParent;
 import com.senla.scooterrentalapp.repository.RentalPointParentRepository;
 import com.senla.scooterrentalapp.service.RentalPointParentService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +13,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class RentalPointParentServiceImpl implements RentalPointParentService {
 
     private final RentalPointParentRepository rentalPointParentRepository;
-
-    @Autowired
-    public RentalPointParentServiceImpl(RentalPointParentRepository rentalPointParentRepository) {
-        this.rentalPointParentRepository = rentalPointParentRepository;
-    }
 
     @Override
     public RentalPointParentDto save(RentalPointParentDto rentalPointParentDto) {

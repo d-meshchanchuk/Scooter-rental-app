@@ -1,37 +1,60 @@
 package com.senla.scooterrentalapp.service.impl;
 
+import com.senla.scooterrentalapp.dto.OrderDto;
+import com.senla.scooterrentalapp.dto.user.UserDto;
 import com.senla.scooterrentalapp.entity.Order;
-import com.senla.scooterrentalapp.entity.user.User;
-import com.senla.scooterrentalapp.repository.OrderRepository;
+import com.senla.scooterrentalapp.repository.*;
 import com.senla.scooterrentalapp.service.OrderService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-
-    @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
+    private final TariffRepository tariffRepository;
+    private final UserRepository userRepository;
+    private final ScooterRepository scooterRepository;
+    private final RentalPointRepository rentalPointRepository;
 
     @Override
-    public Order save(Order order) {
+    public OrderDto save(OrderDto orderDto) {
+        Order order = Order.builder()
+                .id(orderDto.getId())
+                .tariff(tariffRepository.getById(orderDto.getTariffId()))
+                .user(userRepository.getById(orderDto.getUserId()))
+                .scooter(scooterRepository.getById(orderDto.getScooterId()))
+                .startPoint(rentalPointRepository.getById(orderDto.getStartPointId()))
+                .finishPoint(rentalPointRepository.getById(orderDto.getStartPointId()))
+                .created(new Date())
+                .closed(orderDto.getClosed())
+                .status(orderDto.getStatus())
+                .build();
+
+        calculatePrice(order);
+        calculateDiscount(order);
         orderRepository.save(order);
         log.info("IN save - order: {} successfully created", order);
-        return order;
+        return orderDto;
     }
 
     @Override
-    public Order update(Order order) {
-        //todo update order
-        return null;
+    public void calculatePrice(Order order) {
+        Double price = order.getHours() * order.getTariff().getPricePerHour() - order.getUser().getDiscount();
+        order.setPrice(price);
+    }
+
+    //1 point per order
+    @Override
+    public void calculateDiscount(Order order) {
+        order.getUser().setDiscount(order.getUser().getDiscount()+1);
     }
 
     @Override
@@ -41,29 +64,33 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findAll() {
-        List<Order> result = orderRepository.findAll();
+    public List<OrderDto> findAll() {
+        List<Order> orders = orderRepository.findAll();
+        var result = orders.stream().map(OrderDto::fromOrder).collect(Collectors.toList());
         log.info("IN findAll - {} orders found", result.size());
         return result;
     }
 
     @Override
-    public Order findById(Long id) {
-        Order result = orderRepository.findById(id).orElse(null);
+    public OrderDto findById(Long id) {
+        Order order = orderRepository.findById(id).orElse(null);
 
-        if (result == null) {
+        if (order == null) {
             log.warn("IN findById - no order found by id: {}", id);
             return null;
         }
+
+        OrderDto result = OrderDto.fromOrder(order);
 
         log.info("IN findById - order: {} found by id: {}", result, id);
         return result;
     }
 
     @Override
-    public List<Order> findByUser(User user) {
-        List<Order> result = orderRepository.findByUser(user);
-        log.info("IN findByUser - {} orders found by user: {}", result, user);
+    public List<OrderDto> findByUser(UserDto userDto) {
+        List<Order> orders = orderRepository.findByUser(userDto.toUser());
+        var result = orders.stream().map(OrderDto::fromOrder).collect(Collectors.toList());
+        log.info("IN findByUser - {} orders found by user: {}", result, userDto);
         return result;
     }
 }

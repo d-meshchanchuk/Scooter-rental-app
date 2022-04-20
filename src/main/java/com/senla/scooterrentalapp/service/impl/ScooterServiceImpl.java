@@ -1,12 +1,11 @@
 package com.senla.scooterrentalapp.service.impl;
 
 import com.senla.scooterrentalapp.dto.scooter.ScooterDto;
-import com.senla.scooterrentalapp.dto.scooter.ScootersInfoDto;
 import com.senla.scooterrentalapp.entity.scooter.Scooter;
 import com.senla.scooterrentalapp.repository.ScooterRepository;
 import com.senla.scooterrentalapp.service.ScooterService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +13,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class ScooterServiceImpl implements ScooterService {
 
     private final ScooterRepository scooterRepository;
-
-    @Autowired
-    public ScooterServiceImpl(ScooterRepository scooterRepository) {
-        this.scooterRepository = scooterRepository;
-    }
 
     @Override
     public ScooterDto save(ScooterDto scooterDto) {
