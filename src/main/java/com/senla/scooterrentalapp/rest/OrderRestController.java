@@ -2,6 +2,7 @@ package com.senla.scooterrentalapp.rest;
 
 import com.senla.scooterrentalapp.dto.OrderDto;
 import com.senla.scooterrentalapp.dto.user.UserDto;
+import com.senla.scooterrentalapp.exeption.NoContentException;
 import com.senla.scooterrentalapp.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,20 +21,15 @@ public class OrderRestController {
     @GetMapping(value = "{id}")
     public ResponseEntity<OrderDto> getOrderById(@PathVariable(name = "id") Long id) {
         OrderDto result = orderService.findById(id);
-
-        if (result == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "get/{user}")
-    public ResponseEntity<List<OrderDto>> getScootersInfoByScooter(@PathVariable(name = "user") UserDto userDto) {
+    public ResponseEntity<List<OrderDto>> getScootersInfoByScooter(@PathVariable(name = "user") UserDto userDto) throws NoContentException {
         List<OrderDto> result = orderService.findByUser(userDto);
 
         if (result == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            throw new NoContentException();
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

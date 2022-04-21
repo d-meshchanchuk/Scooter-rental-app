@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Data
 @Builder
@@ -22,6 +23,7 @@ public class Scooter {
     @Column(name = "model")
     private String model;
 
+    @Min(0)
     @Column(name = "power")
     private Integer power;
 }

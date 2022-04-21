@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 @Data
@@ -28,9 +29,11 @@ public class Order {
     @JoinColumn(name = "tariff_id")
     private Tariff tariff;
 
+    @Min(0)
     @Column(name = "hours")
     private Integer hours;
 
+    @Min(0)
     @Column(name = "price")
     private Double price;
 

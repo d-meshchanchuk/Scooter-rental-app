@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 @Data
@@ -34,6 +35,7 @@ public class ScootersInfo {
     @JoinColumn(name = "rental_points_id")
     private RentalPoint rentalPoint;
 
+    @Min(0)
     @Column(name = "engine_hours")
     private Integer engineHours;
 
