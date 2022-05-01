@@ -6,28 +6,22 @@ import com.senla.scooterrentalapp.entity.user.User;
 import com.senla.scooterrentalapp.repository.RoleRepository;
 import com.senla.scooterrentalapp.repository.UserRepository;
 import com.senla.scooterrentalapp.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
 @Slf4j
+@Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public User register(User user) {
@@ -36,7 +30,6 @@ public class UserServiceImpl implements UserService {
         userRoles.add(roleUser);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setPassword(user.getPassword());
         user.setRoles(userRoles);
         user.setStatus(Status.ACTIVE);
 
@@ -57,6 +50,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         User result = userRepository.findByUsername(username);
+
+        if (result == null) {
+            log.warn("IN findByUserName - no user found by username: {}", username);
+            return null;
+        }
+
         log.info("IN findByUsername - user: {} found by username: {}", result, username);
         return result;
     }
@@ -70,13 +69,21 @@ public class UserServiceImpl implements UserService {
             return null;
         }
 
-        log.info("IN findById - user: {} found by id: {}", result);
+        log.info("IN findById - user: {} found by id: {}", result, id);
         return result;
+    }
+
+    @Override
+    public User save(User user) {
+        userRepository.save(user);
+        log.info("IN save - tariff: {} successfully created", user);
+        return user;
     }
 
     @Override
     public void delete(Long id) {
         userRepository.deleteById(id);
-        log.info("IN delete - user with id: {} successfully deleted");
+        log.info("IN delete - user with id: {} successfully deleted", id);
     }
+
 }

@@ -3,6 +3,7 @@ package com.senla.scooterrentalapp.service.impl;
 import com.senla.scooterrentalapp.dto.OrderDto;
 import com.senla.scooterrentalapp.dto.user.UserDto;
 import com.senla.scooterrentalapp.entity.Order;
+import com.senla.scooterrentalapp.mapper.UserMapper;
 import com.senla.scooterrentalapp.repository.*;
 import com.senla.scooterrentalapp.service.OrderService;
 import lombok.AllArgsConstructor;
@@ -88,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> findByUser(UserDto userDto) {
-        List<Order> orders = orderRepository.findByUser(userDto.toUser());
+        List<Order> orders = orderRepository.findByUser(UserMapper.USER_MAPPER.toUser(userDto));
         var result = orders.stream().map(OrderDto::fromOrder).collect(Collectors.toList());
         log.info("IN findByUser - {} orders found by user: {}", result, userDto);
         return result;

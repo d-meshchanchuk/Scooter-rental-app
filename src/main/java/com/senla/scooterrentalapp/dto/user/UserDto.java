@@ -1,11 +1,9 @@
 package com.senla.scooterrentalapp.dto.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.senla.scooterrentalapp.entity.user.User;
+import com.senla.scooterrentalapp.entity.Status;
 import lombok.Data;
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
     private Long id;
     private String username;
@@ -13,27 +11,5 @@ public class UserDto {
     private String lastName;
     private String email;
     private Integer discount;
-
-    public User toUser(){
-        User user = new User();
-        user.setId(id);
-        user.setUsername(username);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setEmail(email);
-
-        return user;
-    }
-
-    public static UserDto fromUser(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setUsername(user.getUsername());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        userDto.setEmail(user.getEmail());
-        userDto.setDiscount(user.getDiscount());
-
-        return userDto;
-    }
+    private Status status;
 }
