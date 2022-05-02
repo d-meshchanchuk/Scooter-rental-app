@@ -31,17 +31,17 @@ public class OrderServiceImpl implements OrderService {
         Order order = Order.builder()
                 .id(orderDto.getId())
                 .tariff(tariffRepository.getById(orderDto.getTariffId()))
+                .hours(orderDto.getHours())
                 .user(userRepository.getById(orderDto.getUserId()))
                 .scooter(scooterRepository.getById(orderDto.getScooterId()))
                 .startPoint(rentalPointRepository.getById(orderDto.getStartPointId()))
                 .finishPoint(rentalPointRepository.getById(orderDto.getStartPointId()))
-                .created(new Date())
+                .created(orderDto.getCreated())
                 .closed(orderDto.getClosed())
                 .status(orderDto.getStatus())
                 .build();
 
         calculatePrice(order);
-        calculateDiscount(order);
         orderRepository.save(order);
         log.info("IN save - order: {} successfully created", order);
         return orderDto;
@@ -49,14 +49,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void calculatePrice(Order order) {
-        Double price = order.getHours() * order.getTariff().getPricePerHour() - order.getUser().getDiscount();
+        Double price = order.getHours() * order.getTariff().getPricePerHour() - order.getUser().getDiscount() / 100;
         order.setPrice(price);
-    }
-
-    //1 point per order
-    @Override
-    public void calculateDiscount(Order order) {
-        order.getUser().setDiscount(order.getUser().getDiscount()+1);
     }
 
     @Override

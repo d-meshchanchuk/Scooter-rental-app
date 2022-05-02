@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class OrderRestController {
     }
 
     @GetMapping(value = "get/{user}")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    //@PreAuthorize("hasAuthority('ROLE_USER')")
     public ResponseEntity<List<OrderDto>> OrderByUser(@PathVariable(name = "user") UserDto userDto) throws NoContentException {
         List<OrderDto> result = orderService.findByUser(userDto);
 

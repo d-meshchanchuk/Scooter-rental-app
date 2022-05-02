@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(userRoles);
+        user.setDiscount(0);
         user.setStatus(Status.ACTIVE);
 
         User registeredUser = userRepository.save(user);
@@ -75,9 +76,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        userRepository.save(user);
-        log.info("IN save - tariff: {} successfully created", user);
-        return user;
+        User registeredUser = userRepository.save(user);
+        log.info("IN save - tariff: {} successfully created", registeredUser);
+        return registeredUser;
     }
 
     @Override

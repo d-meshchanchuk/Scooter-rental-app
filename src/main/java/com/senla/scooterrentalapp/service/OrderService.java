@@ -12,8 +12,6 @@ public interface OrderService {
 
     void calculatePrice(Order order);
 
-    void calculateDiscount(Order order);
-
     void delete(Long id);
 
     OrderDto findById(Long id);

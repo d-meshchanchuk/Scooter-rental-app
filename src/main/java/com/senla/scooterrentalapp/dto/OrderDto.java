@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -22,23 +23,7 @@ public class OrderDto {
     private Long scooterId;
     private Long startPointId;
     private Long finishPointId;
-    private Date created;
-    private Date closed;
+    private LocalDateTime created;
+    private LocalDateTime closed;
     private Status status;
-
-    public static OrderDto fromOrder(Order order) {
-        OrderDto orderDto = new OrderDto();
-        orderDto.setId(order.getId());
-        orderDto.setTariffId(order.getTariff().getId());
-        orderDto.setHours(order.getHours());
-        orderDto.setPrice(order.getPrice());
-        orderDto.setScooterId(order.getScooter().getId());
-        orderDto.setStartPointId(order.getStartPoint().getId());
-        orderDto.setFinishPointId(order.getFinishPoint().getId());
-        orderDto.setCreated(order.getCreated());
-        orderDto.setClosed(order.getClosed());
-        orderDto.setStatus(order.getStatus());
-
-        return orderDto;
-    }
 }

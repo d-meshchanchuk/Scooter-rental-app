@@ -8,9 +8,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -19,6 +22,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "orders")
+@EntityListeners(AuditingEntityListener.class)
 public class Order {
 
     @Id
@@ -53,11 +57,12 @@ public class Order {
     @JoinColumn(name = "finish_point_id")
     private RentalPoint finishPoint;
 
+    @CreatedDate
     @Column(name = "created")
-    private Date created;
+    private LocalDateTime created;
 
     @Column(name = "closed")
-    private Date closed;
+    private LocalDateTime closed;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
