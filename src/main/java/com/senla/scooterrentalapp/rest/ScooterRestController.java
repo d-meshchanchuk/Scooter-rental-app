@@ -6,6 +6,7 @@ import com.senla.scooterrentalapp.service.ScooterService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,8 @@ public class ScooterRestController {
     public final ScooterService scooterService;
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<ScooterDto> getTariffById(@PathVariable(name = "id") Long id) throws NoContentException {
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<ScooterDto> getScooterById(@PathVariable(name = "id") Long id) throws NoContentException {
         ScooterDto result = scooterService.findById(id);
 
         if (result == null) {
@@ -29,6 +31,7 @@ public class ScooterRestController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<ScooterDto>> getAll() {
         List<ScooterDto> result = scooterService.findAll();
 
@@ -40,12 +43,14 @@ public class ScooterRestController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> save(@RequestBody ScooterDto scooterDto) {
         scooterService.save(scooterDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable(name = "id") Long id) {
         scooterService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

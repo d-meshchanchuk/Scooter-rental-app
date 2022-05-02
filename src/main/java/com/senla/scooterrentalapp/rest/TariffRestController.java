@@ -5,6 +5,7 @@ import com.senla.scooterrentalapp.service.TariffService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class TariffRestController {
     private final TariffService tariffService;
 
     @GetMapping(value = "{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<TariffDto> getTariffById(@PathVariable(name = "id") Long id) {
         TariffDto tariffDto = tariffService.findById(id);
 
@@ -28,6 +30,7 @@ public class TariffRestController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<TariffDto>> getAll() {
         List<TariffDto> tariffs = tariffService.findAll();
 
@@ -39,12 +42,14 @@ public class TariffRestController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> save(@RequestBody TariffDto tariffDto) {
         tariffService.save(tariffDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable(name = "id") Long id) {
         tariffService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

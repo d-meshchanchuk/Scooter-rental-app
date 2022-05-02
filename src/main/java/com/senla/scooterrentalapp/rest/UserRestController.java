@@ -7,6 +7,7 @@ import com.senla.scooterrentalapp.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class UserRestController {
     private final UserService userService;
 
     @GetMapping(value = "{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Long id) {
         User result = userService.findById(id);
 
@@ -31,6 +33,7 @@ public class UserRestController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<UserDto>> getAll() {
         List<User> users = userService.getAll();
 

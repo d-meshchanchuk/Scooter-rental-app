@@ -5,6 +5,7 @@ import com.senla.scooterrentalapp.service.RentalPointService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,12 +40,14 @@ public class RentalPointRestController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> save(@RequestBody RentalPointDto rentalPointDto) {
         rentalPointService.save(rentalPointDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable(name = "id") Long id) {
         rentalPointService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

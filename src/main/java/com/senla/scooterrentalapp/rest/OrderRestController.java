@@ -21,13 +21,13 @@ public class OrderRestController {
     private final OrderService orderService;
 
     @GetMapping(value = "{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<OrderDto> getOrderById(@PathVariable(name = "id") Long id) {
         OrderDto result = orderService.findById(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "get/{user}")
-    //@PreAuthorize("hasAuthority('ROLE_USER')")
     public ResponseEntity<List<OrderDto>> OrderByUser(@PathVariable(name = "user") UserDto userDto) throws NoContentException {
         List<OrderDto> result = orderService.findByUser(userDto);
 
@@ -39,6 +39,7 @@ public class OrderRestController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<OrderDto>> getAll() {
         List<OrderDto> result = orderService.findAll();
 

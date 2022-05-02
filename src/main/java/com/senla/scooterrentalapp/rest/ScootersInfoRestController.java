@@ -8,6 +8,7 @@ import com.senla.scooterrentalapp.service.ScootersInfoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class ScootersInfoRestController {
     private final RentalPointService rentalPointService;
 
     @GetMapping(value = "{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<ScootersInfoDto> getScootersInfoById(@PathVariable(name = "id") Long id) {
         ScootersInfoDto result = scootersInfoService.findById(id);
 
@@ -33,6 +35,7 @@ public class ScootersInfoRestController {
     }
 
     @GetMapping(value = "get/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<ScootersInfoDto>> getScootersInfoByScooter(@RequestParam String param, @PathVariable(name = "id") Long id) {
         List<ScootersInfoDto> result = switch (param) {
             case ("scooter") -> scootersInfoService.findByScooter(scooterService.findById(id));
@@ -59,6 +62,7 @@ public class ScootersInfoRestController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<ScootersInfoDto>> getAll() {
         List<ScootersInfoDto> result = scootersInfoService.findAll();
 
@@ -70,12 +74,14 @@ public class ScootersInfoRestController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> save(@RequestBody ScootersInfoDto scootersInfoDto) {
         scootersInfoService.save(scootersInfoDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
         scootersInfoService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
