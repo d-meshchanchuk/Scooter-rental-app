@@ -2,6 +2,7 @@ package com.senla.scooterrentalapp.service.impl;
 
 import com.senla.scooterrentalapp.dto.tariff.TariffDto;
 import com.senla.scooterrentalapp.entity.tariff.Tariff;
+import com.senla.scooterrentalapp.mapper.TariffMapper;
 import com.senla.scooterrentalapp.repository.TariffRepository;
 import com.senla.scooterrentalapp.service.TariffService;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class TariffServiceImpl implements TariffService {
 
     @Override
     public TariffDto save(TariffDto tariffDto) {
-        Tariff tariff = tariffDto.toTariff();
+        Tariff tariff = TariffMapper.TARIFF_MAPPER.toTariff(tariffDto);
         tariffRepository.save(tariff);
         log.info("IN save - tariff: {} successfully created", tariff);
         return tariffDto;
@@ -35,7 +36,7 @@ public class TariffServiceImpl implements TariffService {
     @Override
     public List<TariffDto> findAll() {
         List<Tariff> tariffs = tariffRepository.findAll();
-        var result = tariffs.stream().map(TariffDto::fromTariff).collect(Collectors.toList());
+        var result = tariffs.stream().map(TariffMapper.TARIFF_MAPPER::fromTariff).collect(Collectors.toList());
         log.info("IN findAll - {} tariffs found", result.size());
         return result;
     }
@@ -49,7 +50,7 @@ public class TariffServiceImpl implements TariffService {
             return null;
         }
 
-        TariffDto result = TariffDto.fromTariff(tariff);
+        TariffDto result = TariffMapper.TARIFF_MAPPER.fromTariff(tariff);
 
         log.info("IN findById - tariff: {} found by id: {}", result, id);
         return result;

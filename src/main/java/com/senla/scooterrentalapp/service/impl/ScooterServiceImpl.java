@@ -2,6 +2,7 @@ package com.senla.scooterrentalapp.service.impl;
 
 import com.senla.scooterrentalapp.dto.scooter.ScooterDto;
 import com.senla.scooterrentalapp.entity.scooter.Scooter;
+import com.senla.scooterrentalapp.mapper.ScooterMapper;
 import com.senla.scooterrentalapp.repository.ScooterRepository;
 import com.senla.scooterrentalapp.service.ScooterService;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class ScooterServiceImpl implements ScooterService {
 
     @Override
     public ScooterDto save(ScooterDto scooterDto) {
-        scooterRepository.save(scooterDto.toScooter());
+        scooterRepository.save(ScooterMapper.SCOOTER_MAPPER.toScooter(scooterDto));
         log.info("IN save - scooter: {} successfully created", scooterDto);
         return scooterDto;
     }
@@ -34,7 +35,7 @@ public class ScooterServiceImpl implements ScooterService {
     @Override
     public List<ScooterDto> findAll() {
         List<Scooter> scooters = scooterRepository.findAll();
-        var result = scooters.stream().map(ScooterDto::fromScooter).collect(Collectors.toList());
+        var result = scooters.stream().map(ScooterMapper.SCOOTER_MAPPER::fromScooter).collect(Collectors.toList());
         log.info("IN findAll - {} scooters found", result.size());
         return result;
     }
@@ -48,7 +49,7 @@ public class ScooterServiceImpl implements ScooterService {
             return null;
         }
 
-        ScooterDto result = ScooterDto.fromScooter(scooter);
+        ScooterDto result = ScooterMapper.SCOOTER_MAPPER.fromScooter(scooter);
 
         log.info("IN findById - scooter: {} found by id: {}", result, id);
         return result;

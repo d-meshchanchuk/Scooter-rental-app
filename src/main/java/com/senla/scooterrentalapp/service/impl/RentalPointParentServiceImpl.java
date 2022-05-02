@@ -2,6 +2,7 @@ package com.senla.scooterrentalapp.service.impl;
 
 import com.senla.scooterrentalapp.dto.rentalpoint.RentalPointParentDto;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPointParent;
+import com.senla.scooterrentalapp.mapper.RentalPointParentMapper;
 import com.senla.scooterrentalapp.repository.RentalPointParentRepository;
 import com.senla.scooterrentalapp.service.RentalPointParentService;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class RentalPointParentServiceImpl implements RentalPointParentService {
 
     @Override
     public RentalPointParentDto save(RentalPointParentDto rentalPointParentDto) {
-        rentalPointParentRepository.save(rentalPointParentDto.toRentalPointParent());
+        rentalPointParentRepository.save(RentalPointParentMapper.SCOOTER_MAPPER.toRentalPointParent(rentalPointParentDto));
         log.info("IN save - rentalPointParent: {} successfully created", rentalPointParentDto);
         return rentalPointParentDto;
     }
@@ -34,21 +35,21 @@ public class RentalPointParentServiceImpl implements RentalPointParentService {
     @Override
     public List<RentalPointParentDto> findAll() {
         List<RentalPointParent> rentalPointParents = rentalPointParentRepository.findAll();
-        var result = rentalPointParents.stream().map(RentalPointParentDto::fromRentalPointParent).collect(Collectors.toList());
+        var result = rentalPointParents.stream().map(RentalPointParentMapper.SCOOTER_MAPPER::fromRentalPointParent).collect(Collectors.toList());
         log.info("IN findAll - {} rentalPointParents found", result.size());
         return result;
     }
 
     @Override
     public RentalPointParentDto findById(Long id) {
-        RentalPointParent rentalPointParents = rentalPointParentRepository.findById(id).orElse(null);
+        RentalPointParent rentalPointParent = rentalPointParentRepository.findById(id).orElse(null);
 
-        if (rentalPointParents == null) {
+        if (rentalPointParent == null) {
             log.warn("IN findById - no rentalPointParent found by id: {}", id);
             return null;
         }
 
-        RentalPointParentDto result = RentalPointParentDto.fromRentalPointParent(rentalPointParents);
+        RentalPointParentDto result = RentalPointParentMapper.SCOOTER_MAPPER.fromRentalPointParent(rentalPointParent);
 
         log.info("IN findById - rentalPointParent: {} found by id: {}", result, id);
         return result;

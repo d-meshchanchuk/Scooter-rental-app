@@ -10,10 +10,14 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface UserMapper {
     UserMapper USER_MAPPER = Mappers.getMapper(UserMapper.class);
+
     RegistrationUserDto RegistrationUserDtoFromUser(User user);
+
     UserDto UserDtoFromUser(User user);
+
     @InheritInverseConfiguration
     User toUser(RegistrationUserDto registrationUserDto);
+
     @InheritInverseConfiguration
     User toUser(UserDto userDto);
 }

@@ -2,6 +2,7 @@ package com.senla.scooterrentalapp.service.impl;
 
 import com.senla.scooterrentalapp.dto.rentalpoint.RentalPointDto;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
+import com.senla.scooterrentalapp.mapper.RentalPointMapper;
 import com.senla.scooterrentalapp.repository.RentalPointParentRepository;
 import com.senla.scooterrentalapp.repository.RentalPointRepository;
 import com.senla.scooterrentalapp.service.RentalPointService;
@@ -43,21 +44,21 @@ public class RentalPointServiceImpl implements RentalPointService {
     @Override
     public List<RentalPointDto> findAll() {
         List<RentalPoint> rentalPoints = rentalPointRepository.findAll();
-        var result = rentalPoints.stream().map(RentalPointDto::fromRentalPoint).collect(Collectors.toList());
+        var result = rentalPoints.stream().map(RentalPointMapper.RENTAL_POINT_MAPPER::fromRentalPoint).collect(Collectors.toList());
         log.info("IN findAll - {} rentalPoints found", result.size());
         return result;
     }
 
     @Override
     public RentalPointDto findById(Long id) {
-        RentalPoint rentalPoints = rentalPointRepository.findById(id).orElse(null);
+        RentalPoint rentalPoint = rentalPointRepository.findById(id).orElse(null);
 
-        if (rentalPoints == null) {
+        if (rentalPoint == null) {
             log.warn("IN findById - no rentalPoint found by id: {}", id);
             return null;
         }
 
-        RentalPointDto result = RentalPointDto.fromRentalPoint(rentalPoints);
+        RentalPointDto result = RentalPointMapper.RENTAL_POINT_MAPPER.fromRentalPoint(rentalPoint);
 
         log.info("IN findById - rentalPoint: {} found by id: {}", result, id);
         return result;
