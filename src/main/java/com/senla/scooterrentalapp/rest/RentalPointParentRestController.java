@@ -1,11 +1,55 @@
 package com.senla.scooterrentalapp.rest;
 
+import com.senla.scooterrentalapp.dto.rentalpoint.RentalPointParentDto;
+import com.senla.scooterrentalapp.service.RentalPointParentService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/rentalPointParent/")
 public class RentalPointParentRestController {
+
+    private final RentalPointParentService rentalPointParentService;
+
+    @GetMapping(value = "{id}")
+    public ResponseEntity<RentalPointParentDto> getRentalPointById(@PathVariable(name = "id") Long id) {
+        RentalPointParentDto result = rentalPointParentService.findById(id);
+
+        if (result == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<RentalPointParentDto>> getAll() {
+        List<RentalPointParentDto> result = rentalPointParentService.findAll();
+
+        if (result == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Void> save(@RequestBody RentalPointParentDto rentalPointParentDto) {
+        rentalPointParentService.save(rentalPointParentDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Void> delete(@PathVariable(name = "id") Long id) {
+        rentalPointParentService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
