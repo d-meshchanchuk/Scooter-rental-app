@@ -12,7 +12,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Builder

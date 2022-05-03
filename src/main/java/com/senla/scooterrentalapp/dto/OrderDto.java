@@ -1,6 +1,5 @@
 package com.senla.scooterrentalapp.dto;
 
-import com.senla.scooterrentalapp.entity.Order;
 import com.senla.scooterrentalapp.entity.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Builder

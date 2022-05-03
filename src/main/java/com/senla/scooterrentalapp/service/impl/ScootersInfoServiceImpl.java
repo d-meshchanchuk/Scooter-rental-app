@@ -6,7 +6,6 @@ import com.senla.scooterrentalapp.dto.scooter.ScootersInfoDto;
 import com.senla.scooterrentalapp.entity.Status;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
 import com.senla.scooterrentalapp.entity.scooter.ScootersInfo;
-import com.senla.scooterrentalapp.mapper.RentalPointMapper;
 import com.senla.scooterrentalapp.mapper.ScooterMapper;
 import com.senla.scooterrentalapp.mapper.ScootersInfoMapper;
 import com.senla.scooterrentalapp.repository.RentalPointParentRepository;
@@ -17,7 +16,6 @@ import com.senla.scooterrentalapp.service.ScootersInfoService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;

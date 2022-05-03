@@ -1,7 +1,6 @@
 package com.senla.scooterrentalapp.service;
 
 import com.senla.scooterrentalapp.dto.rentalpoint.RentalPointParentDto;
-import com.senla.scooterrentalapp.entity.rentalpoint.RentalPointParent;
 
 import java.util.List;
 
