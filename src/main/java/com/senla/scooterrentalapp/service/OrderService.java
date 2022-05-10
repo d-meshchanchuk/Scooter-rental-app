@@ -1,7 +1,6 @@
 package com.senla.scooterrentalapp.service;
 
 import com.senla.scooterrentalapp.dto.OrderDto;
-import com.senla.scooterrentalapp.dto.user.UserDto;
 import com.senla.scooterrentalapp.entity.Order;
 import com.senla.scooterrentalapp.exception.NoContentException;
 

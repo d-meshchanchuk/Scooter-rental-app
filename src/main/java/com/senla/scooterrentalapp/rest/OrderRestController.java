@@ -2,9 +2,7 @@ package com.senla.scooterrentalapp.rest;
 
 import com.senla.scooterrentalapp.dto.OrderDto;
 import com.senla.scooterrentalapp.exception.NoContentException;
-import com.senla.scooterrentalapp.mapper.UserMapper;
 import com.senla.scooterrentalapp.service.OrderService;
-import com.senla.scooterrentalapp.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,13 +1,12 @@
 package com.senla.scooterrentalapp.service.impl;
 
 import com.senla.scooterrentalapp.dto.OrderDto;
-import com.senla.scooterrentalapp.dto.user.UserDto;
 import com.senla.scooterrentalapp.entity.Order;
 import com.senla.scooterrentalapp.entity.user.User;
 import com.senla.scooterrentalapp.exception.NoContentException;
 import com.senla.scooterrentalapp.mapper.OrderMapper;
-import com.senla.scooterrentalapp.mapper.UserMapper;
-import com.senla.scooterrentalapp.repository.*;
+import com.senla.scooterrentalapp.repository.OrderRepository;
+import com.senla.scooterrentalapp.repository.UserRepository;
 import com.senla.scooterrentalapp.service.OrderService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

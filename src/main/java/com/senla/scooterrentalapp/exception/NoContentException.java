@@ -5,5 +5,5 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class NoContentException extends  Exception{
+public class NoContentException extends Exception {
 }

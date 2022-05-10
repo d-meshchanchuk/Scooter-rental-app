@@ -2,7 +2,6 @@ package com.senla.scooterrentalapp.rest;
 
 import com.senla.scooterrentalapp.dto.user.AuthenticationRequestDto;
 import com.senla.scooterrentalapp.entity.user.User;
-import com.senla.scooterrentalapp.exception.NoContentException;
 import com.senla.scooterrentalapp.security.jwt.JwtTokenProvider;
 import com.senla.scooterrentalapp.service.UserService;
 import lombok.AllArgsConstructor;
