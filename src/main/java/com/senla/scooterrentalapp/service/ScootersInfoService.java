@@ -1,7 +1,5 @@
 package com.senla.scooterrentalapp.service;
 
-import com.senla.scooterrentalapp.dto.rentalpoint.RentalPointDto;
-import com.senla.scooterrentalapp.dto.scooter.ScooterDto;
 import com.senla.scooterrentalapp.dto.scooter.ScootersInfoDto;
 import com.senla.scooterrentalapp.entity.Status;
 
@@ -17,10 +15,10 @@ public interface ScootersInfoService {
 
     List<ScootersInfoDto> findAll();
 
-    List<ScootersInfoDto> findByScooter(ScooterDto scooterDto);
+    List<ScootersInfoDto> findByScooterId(Long id);
 
     List<ScootersInfoDto> findByStatus(Status status);
 
-    List<ScootersInfoDto> findByRentalPoint(RentalPointDto rentalPointDto);
+    List<ScootersInfoDto> findByRentalPointId(Long id);
 
 }

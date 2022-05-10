@@ -3,6 +3,7 @@ package com.senla.scooterrentalapp.service.impl;
 import com.senla.scooterrentalapp.dto.OrderDto;
 import com.senla.scooterrentalapp.dto.user.UserDto;
 import com.senla.scooterrentalapp.entity.Order;
+import com.senla.scooterrentalapp.entity.user.User;
 import com.senla.scooterrentalapp.mapper.OrderMapper;
 import com.senla.scooterrentalapp.mapper.UserMapper;
 import com.senla.scooterrentalapp.repository.*;
@@ -20,25 +21,12 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final TariffRepository tariffRepository;
     private final UserRepository userRepository;
-    private final ScooterRepository scooterRepository;
-    private final RentalPointRepository rentalPointRepository;
+    private final OrderMapper orderMapper;
 
     @Override
     public OrderDto save(OrderDto orderDto) {
-        Order order = Order.builder()
-                .id(orderDto.getId())
-                .tariff(tariffRepository.getById(orderDto.getTariffId()))
-                .hours(orderDto.getHours())
-                .user(userRepository.getById(orderDto.getUserId()))
-                .scooter(scooterRepository.getById(orderDto.getScooterId()))
-                .startPoint(rentalPointRepository.getById(orderDto.getStartPointId()))
-                .finishPoint(rentalPointRepository.getById(orderDto.getStartPointId()))
-                .created(orderDto.getCreated())
-                .closed(orderDto.getClosed())
-                .status(orderDto.getStatus())
-                .build();
+        Order order = orderMapper.toOrder(orderDto);
 
         calculatePrice(order);
         orderRepository.save(order);
@@ -48,8 +36,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void calculatePrice(Order order) {
-        Double price = order.getHours() * order.getTariff().getPricePerHour() - order.getUser().getDiscount() / 100;
-        order.setPrice(price);
+        Double price = order.getHours() * order.getTariff().getPricePerHour();
+        Double discount = price * order.getUser().getDiscount() / 100;
+        Double discountPrice = price - discount;
+        order.setPrice(discountPrice);
     }
 
     @Override
@@ -61,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDto> findAll() {
         List<Order> orders = orderRepository.findAll();
-        var result = orders.stream().map(OrderMapper.ORDER_MAPPER::fromOrder).collect(Collectors.toList());
+        var result = orders.stream().map(orderMapper::fromOrder).collect(Collectors.toList());
         log.info("IN findAll - {} orders found", result.size());
         return result;
     }
@@ -75,17 +65,18 @@ public class OrderServiceImpl implements OrderService {
             return null;
         }
 
-        OrderDto result = OrderMapper.ORDER_MAPPER.fromOrder(order);
+        OrderDto result = orderMapper.fromOrder(order);
 
         log.info("IN findById - order: {} found by id: {}", result, id);
         return result;
     }
 
     @Override
-    public List<OrderDto> findByUser(UserDto userDto) {
-        List<Order> orders = orderRepository.findByUser(UserMapper.USER_MAPPER.toUser(userDto));
-        var result = orders.stream().map(OrderMapper.ORDER_MAPPER::fromOrder).collect(Collectors.toList());
-        log.info("IN findByUser - {} orders found by user: {}", result, userDto);
+    public List<OrderDto> findByUserId(Long userId) {
+        User user = userRepository.getById(userId);
+        List<Order> orders = orderRepository.findByUser(user);
+        var result = orders.stream().map(orderMapper::fromOrder).collect(Collectors.toList());
+        log.info("IN findByUser - {} orders found by user: {}", result, user);
         return result;
     }
 }

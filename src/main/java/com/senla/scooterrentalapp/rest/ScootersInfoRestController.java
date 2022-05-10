@@ -2,8 +2,6 @@ package com.senla.scooterrentalapp.rest;
 
 import com.senla.scooterrentalapp.dto.scooter.ScootersInfoDto;
 import com.senla.scooterrentalapp.entity.Status;
-import com.senla.scooterrentalapp.service.RentalPointService;
-import com.senla.scooterrentalapp.service.ScooterService;
 import com.senla.scooterrentalapp.service.ScootersInfoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,8 +17,6 @@ import java.util.List;
 public class ScootersInfoRestController {
 
     private final ScootersInfoService scootersInfoService;
-    private final ScooterService scooterService;
-    private final RentalPointService rentalPointService;
 
     @GetMapping(value = "{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -38,8 +34,8 @@ public class ScootersInfoRestController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<ScootersInfoDto>> getScootersInfoByScooter(@RequestParam String param, @PathVariable(name = "id") Long id) {
         List<ScootersInfoDto> result = switch (param) {
-            case ("scooter") -> scootersInfoService.findByScooter(scooterService.findById(id));
-            case ("rentalPoint") -> scootersInfoService.findByRentalPoint(rentalPointService.findById(id));
+            case ("scooter") -> scootersInfoService.findByScooterId(id);
+            case ("rentalPoint") -> scootersInfoService.findByRentalPointId(id);
             default -> scootersInfoService.findAll();
         };
 

@@ -18,10 +18,11 @@ import java.util.stream.Collectors;
 public class TariffServiceImpl implements TariffService {
 
     private final TariffRepository tariffRepository;
+    private final TariffMapper tariffMapper;
 
     @Override
     public TariffDto save(TariffDto tariffDto) {
-        Tariff tariff = TariffMapper.TARIFF_MAPPER.toTariff(tariffDto);
+        Tariff tariff = tariffMapper.toTariff(tariffDto);
         tariffRepository.save(tariff);
         log.info("IN save - tariff: {} successfully created", tariff);
         return tariffDto;
@@ -36,7 +37,7 @@ public class TariffServiceImpl implements TariffService {
     @Override
     public List<TariffDto> findAll() {
         List<Tariff> tariffs = tariffRepository.findAll();
-        var result = tariffs.stream().map(TariffMapper.TARIFF_MAPPER::fromTariff).collect(Collectors.toList());
+        var result = tariffs.stream().map(tariffMapper::fromTariff).collect(Collectors.toList());
         log.info("IN findAll - {} tariffs found", result.size());
         return result;
     }
@@ -50,7 +51,7 @@ public class TariffServiceImpl implements TariffService {
             return null;
         }
 
-        TariffDto result = TariffMapper.TARIFF_MAPPER.fromTariff(tariff);
+        TariffDto result = tariffMapper.fromTariff(tariff);
 
         log.info("IN findById - tariff: {} found by id: {}", result, id);
         return result;

@@ -18,10 +18,11 @@ import java.util.stream.Collectors;
 public class RentalPointParentServiceImpl implements RentalPointParentService {
 
     private final RentalPointParentRepository rentalPointParentRepository;
+    private final RentalPointParentMapper rentalPointParentMapper;
 
     @Override
     public RentalPointParentDto save(RentalPointParentDto rentalPointParentDto) {
-        rentalPointParentRepository.save(RentalPointParentMapper.SCOOTER_MAPPER.toRentalPointParent(rentalPointParentDto));
+        rentalPointParentRepository.save(rentalPointParentMapper.toRentalPointParent(rentalPointParentDto));
         log.info("IN save - rentalPointParent: {} successfully created", rentalPointParentDto);
         return rentalPointParentDto;
     }
@@ -35,7 +36,7 @@ public class RentalPointParentServiceImpl implements RentalPointParentService {
     @Override
     public List<RentalPointParentDto> findAll() {
         List<RentalPointParent> rentalPointParents = rentalPointParentRepository.findAll();
-        var result = rentalPointParents.stream().map(RentalPointParentMapper.SCOOTER_MAPPER::fromRentalPointParent).collect(Collectors.toList());
+        var result = rentalPointParents.stream().map(rentalPointParentMapper::fromRentalPointParent).collect(Collectors.toList());
         log.info("IN findAll - {} rentalPointParents found", result.size());
         return result;
     }
@@ -49,7 +50,7 @@ public class RentalPointParentServiceImpl implements RentalPointParentService {
             return null;
         }
 
-        RentalPointParentDto result = RentalPointParentMapper.SCOOTER_MAPPER.fromRentalPointParent(rentalPointParent);
+        RentalPointParentDto result = rentalPointParentMapper.fromRentalPointParent(rentalPointParent);
 
         log.info("IN findById - rentalPointParent: {} found by id: {}", result, id);
         return result;

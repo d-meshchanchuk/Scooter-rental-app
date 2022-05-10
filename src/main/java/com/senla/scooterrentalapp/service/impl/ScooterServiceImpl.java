@@ -18,10 +18,11 @@ import java.util.stream.Collectors;
 public class ScooterServiceImpl implements ScooterService {
 
     private final ScooterRepository scooterRepository;
+    private final ScooterMapper scooterMapper;
 
     @Override
     public ScooterDto save(ScooterDto scooterDto) {
-        scooterRepository.save(ScooterMapper.SCOOTER_MAPPER.toScooter(scooterDto));
+        scooterRepository.save(scooterMapper.toScooter(scooterDto));
         log.info("IN save - scooter: {} successfully created", scooterDto);
         return scooterDto;
     }
@@ -35,7 +36,7 @@ public class ScooterServiceImpl implements ScooterService {
     @Override
     public List<ScooterDto> findAll() {
         List<Scooter> scooters = scooterRepository.findAll();
-        var result = scooters.stream().map(ScooterMapper.SCOOTER_MAPPER::fromScooter).collect(Collectors.toList());
+        var result = scooters.stream().map(scooterMapper::fromScooter).collect(Collectors.toList());
         log.info("IN findAll - {} scooters found", result.size());
         return result;
     }
@@ -49,7 +50,7 @@ public class ScooterServiceImpl implements ScooterService {
             return null;
         }
 
-        ScooterDto result = ScooterMapper.SCOOTER_MAPPER.fromScooter(scooter);
+        ScooterDto result = scooterMapper.fromScooter(scooter);
 
         log.info("IN findById - scooter: {} found by id: {}", result, id);
         return result;

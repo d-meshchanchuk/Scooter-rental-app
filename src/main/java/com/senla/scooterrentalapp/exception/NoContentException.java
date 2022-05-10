@@ -1,4 +1,4 @@
-package com.senla.scooterrentalapp.exeption;
+package com.senla.scooterrentalapp.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

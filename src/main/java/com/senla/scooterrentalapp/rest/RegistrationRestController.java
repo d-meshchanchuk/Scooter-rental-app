@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegistrationRestController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @PostMapping
     public ResponseEntity<Void> registration(@RequestBody RegistrationUserDto registrationUserDto) {
-        userService.register(UserMapper.USER_MAPPER.toUser(registrationUserDto));
+        userService.register(userMapper.toUser(registrationUserDto));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

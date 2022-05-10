@@ -1,7 +1,7 @@
-package com.senla.scooterrentalapp.exeption.handling;
+package com.senla.scooterrentalapp.exception.handling;
 
 import com.senla.scooterrentalapp.dto.ErrorDTO;
-import com.senla.scooterrentalapp.exeption.NoContentException;
+import com.senla.scooterrentalapp.exception.NoContentException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;

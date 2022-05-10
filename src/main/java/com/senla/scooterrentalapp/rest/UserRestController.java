@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class UserRestController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @GetMapping(value = "{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -29,7 +30,7 @@ public class UserRestController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(UserMapper.USER_MAPPER.UserDtoFromUser(result), HttpStatus.OK);
+        return new ResponseEntity<>(userMapper.UserDtoFromUser(result), HttpStatus.OK);
     }
 
     @GetMapping()
@@ -41,12 +42,12 @@ public class UserRestController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<>(users.stream().map(UserMapper.USER_MAPPER::UserDtoFromUser).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(users.stream().map(userMapper::UserDtoFromUser).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody UserDto userDto) {
-        userService.save(UserMapper.USER_MAPPER.toUser(userDto));
+        userService.save(userMapper.toUser(userDto));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

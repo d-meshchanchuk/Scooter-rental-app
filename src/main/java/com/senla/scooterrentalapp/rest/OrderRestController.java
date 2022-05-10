@@ -1,7 +1,7 @@
 package com.senla.scooterrentalapp.rest;
 
 import com.senla.scooterrentalapp.dto.OrderDto;
-import com.senla.scooterrentalapp.exeption.NoContentException;
+import com.senla.scooterrentalapp.exception.NoContentException;
 import com.senla.scooterrentalapp.mapper.UserMapper;
 import com.senla.scooterrentalapp.service.OrderService;
 import com.senla.scooterrentalapp.service.UserService;
@@ -29,11 +29,11 @@ public class OrderRestController {
     }
 
     @GetMapping(value = "get/{id}")
-    public ResponseEntity<List<OrderDto>> OrderByUser(@PathVariable(name = "id") Long id) throws NoContentException {
-        List<OrderDto> result = orderService.findByUser(UserMapper.USER_MAPPER.UserDtoFromUser(userService.findById(id)));
+    public ResponseEntity<List<OrderDto>> OrderByUser(@PathVariable(name = "id") Long id) {
+        List<OrderDto> result = orderService.findByUserId(id);
 
         if (result == null) {
-            throw new NoContentException();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

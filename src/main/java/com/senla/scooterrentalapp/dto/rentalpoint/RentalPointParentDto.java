@@ -1,5 +1,6 @@
 package com.senla.scooterrentalapp.dto.rentalpoint;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

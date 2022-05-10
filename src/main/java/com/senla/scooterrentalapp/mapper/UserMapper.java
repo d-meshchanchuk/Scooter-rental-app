@@ -7,17 +7,14 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
-    UserMapper USER_MAPPER = Mappers.getMapper(UserMapper.class);
 
     RegistrationUserDto RegistrationUserDtoFromUser(User user);
 
     UserDto UserDtoFromUser(User user);
 
-    @InheritInverseConfiguration
     User toUser(RegistrationUserDto registrationUserDto);
 
-    @InheritInverseConfiguration
     User toUser(UserDto userDto);
 }

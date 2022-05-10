@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+
     @Override
     public User register(User user) {
         Role roleUser = roleRepository.findByName("ROLE_USER");

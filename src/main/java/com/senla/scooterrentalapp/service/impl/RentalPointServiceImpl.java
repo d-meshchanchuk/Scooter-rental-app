@@ -3,7 +3,6 @@ package com.senla.scooterrentalapp.service.impl;
 import com.senla.scooterrentalapp.dto.rentalpoint.RentalPointDto;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
 import com.senla.scooterrentalapp.mapper.RentalPointMapper;
-import com.senla.scooterrentalapp.repository.RentalPointParentRepository;
 import com.senla.scooterrentalapp.repository.RentalPointRepository;
 import com.senla.scooterrentalapp.service.RentalPointService;
 import lombok.AllArgsConstructor;
@@ -19,17 +18,11 @@ import java.util.stream.Collectors;
 public class RentalPointServiceImpl implements RentalPointService {
 
     private final RentalPointRepository rentalPointRepository;
-    private final RentalPointParentRepository rentalPointParentRepository;
+    private final RentalPointMapper rentalPointMapper;
 
     @Override
     public RentalPointDto save(RentalPointDto rentalPointDto) {
-        RentalPoint rentalPoint = RentalPoint.builder()
-                .id(rentalPointDto.getId())
-                .parent(rentalPointParentRepository.getById(rentalPointDto.getParentId()))
-                .location(rentalPointDto.getLocation())
-                .longitude(rentalPointDto.getLongitude())
-                .latitude(rentalPointDto.getLatitude())
-                .build();
+        RentalPoint rentalPoint = rentalPointMapper.toRentalPoint(rentalPointDto);
         rentalPointRepository.save(rentalPoint);
         log.info("IN save - rentalPoint: {} successfully created", rentalPointDto);
         return rentalPointDto;
@@ -44,7 +37,7 @@ public class RentalPointServiceImpl implements RentalPointService {
     @Override
     public List<RentalPointDto> findAll() {
         List<RentalPoint> rentalPoints = rentalPointRepository.findAll();
-        var result = rentalPoints.stream().map(RentalPointMapper.RENTAL_POINT_MAPPER::fromRentalPoint).collect(Collectors.toList());
+        var result = rentalPoints.stream().map(rentalPointMapper::fromRentalPoint).collect(Collectors.toList());
         log.info("IN findAll - {} rentalPoints found", result.size());
         return result;
     }
@@ -58,7 +51,7 @@ public class RentalPointServiceImpl implements RentalPointService {
             return null;
         }
 
-        RentalPointDto result = RentalPointMapper.RENTAL_POINT_MAPPER.fromRentalPoint(rentalPoint);
+        RentalPointDto result = rentalPointMapper.fromRentalPoint(rentalPoint);
 
         log.info("IN findById - rentalPoint: {} found by id: {}", result, id);
         return result;
