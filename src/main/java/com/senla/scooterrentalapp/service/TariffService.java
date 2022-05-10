@@ -1,6 +1,7 @@
 package com.senla.scooterrentalapp.service;
 
 import com.senla.scooterrentalapp.dto.tariff.TariffDto;
+import com.senla.scooterrentalapp.exception.NoContentException;
 
 import java.util.List;
 
@@ -12,5 +13,5 @@ public interface TariffService {
 
     List<TariffDto> findAll();
 
-    TariffDto findById(Long id);
+    TariffDto findById(Long id) throws NoContentException;
 }

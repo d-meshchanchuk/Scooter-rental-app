@@ -5,6 +5,7 @@ import com.senla.scooterrentalapp.entity.Status;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPoint;
 import com.senla.scooterrentalapp.entity.scooter.Scooter;
 import com.senla.scooterrentalapp.entity.scooter.ScootersInfo;
+import com.senla.scooterrentalapp.exception.NoContentException;
 import com.senla.scooterrentalapp.mapper.ScootersInfoMapper;
 import com.senla.scooterrentalapp.repository.RentalPointRepository;
 import com.senla.scooterrentalapp.repository.ScooterRepository;
@@ -42,12 +43,12 @@ public class ScootersInfoServiceImpl implements ScootersInfoService {
     }
 
     @Override
-    public ScootersInfoDto findById(Long id) {
+    public ScootersInfoDto findById(Long id) throws NoContentException {
         ScootersInfo scootersInfo = scootersInfoRepository.findById(id).orElse(null);
 
         if (scootersInfo == null) {
             log.warn("IN findById - no scootersInfo found by id: {}", id);
-            return null;
+            throw new NoContentException();
         }
 
         ScootersInfoDto result = scootersInfoMapper.fromScootersInfo(scootersInfo);

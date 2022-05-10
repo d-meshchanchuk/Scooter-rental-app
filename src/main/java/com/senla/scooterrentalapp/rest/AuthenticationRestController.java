@@ -2,6 +2,7 @@ package com.senla.scooterrentalapp.rest;
 
 import com.senla.scooterrentalapp.dto.user.AuthenticationRequestDto;
 import com.senla.scooterrentalapp.entity.user.User;
+import com.senla.scooterrentalapp.exception.NoContentException;
 import com.senla.scooterrentalapp.security.jwt.JwtTokenProvider;
 import com.senla.scooterrentalapp.service.UserService;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +34,7 @@ public class AuthenticationRestController {
     private final UserService userService;
 
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestBody AuthenticationRequestDto requestDto) {
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequestDto requestDto) throws UsernameNotFoundException {
         try {
             String username = requestDto.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestDto.getUsername(), requestDto.getPassword()));

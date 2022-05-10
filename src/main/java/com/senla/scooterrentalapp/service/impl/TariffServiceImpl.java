@@ -2,6 +2,7 @@ package com.senla.scooterrentalapp.service.impl;
 
 import com.senla.scooterrentalapp.dto.tariff.TariffDto;
 import com.senla.scooterrentalapp.entity.tariff.Tariff;
+import com.senla.scooterrentalapp.exception.NoContentException;
 import com.senla.scooterrentalapp.mapper.TariffMapper;
 import com.senla.scooterrentalapp.repository.TariffRepository;
 import com.senla.scooterrentalapp.service.TariffService;
@@ -43,12 +44,12 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public TariffDto findById(Long id) {
+    public TariffDto findById(Long id) throws NoContentException {
         Tariff tariff = tariffRepository.findById(id).orElse(null);
 
         if (tariff == null) {
             log.warn("IN findById - no tariff found by id: {}", id);
-            return null;
+            throw new NoContentException();
         }
 
         TariffDto result = tariffMapper.fromTariff(tariff);

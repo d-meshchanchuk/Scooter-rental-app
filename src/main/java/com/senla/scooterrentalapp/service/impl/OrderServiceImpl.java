@@ -4,6 +4,7 @@ import com.senla.scooterrentalapp.dto.OrderDto;
 import com.senla.scooterrentalapp.dto.user.UserDto;
 import com.senla.scooterrentalapp.entity.Order;
 import com.senla.scooterrentalapp.entity.user.User;
+import com.senla.scooterrentalapp.exception.NoContentException;
 import com.senla.scooterrentalapp.mapper.OrderMapper;
 import com.senla.scooterrentalapp.mapper.UserMapper;
 import com.senla.scooterrentalapp.repository.*;
@@ -57,12 +58,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto findById(Long id) {
+    public OrderDto findById(Long id) throws NoContentException {
         Order order = orderRepository.findById(id).orElse(null);
 
         if (order == null) {
             log.warn("IN findById - no order found by id: {}", id);
-            return null;
+            throw new NoContentException();
         }
 
         OrderDto result = orderMapper.fromOrder(order);

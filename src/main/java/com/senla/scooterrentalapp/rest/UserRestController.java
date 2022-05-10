@@ -2,6 +2,7 @@ package com.senla.scooterrentalapp.rest;
 
 import com.senla.scooterrentalapp.dto.user.UserDto;
 import com.senla.scooterrentalapp.entity.user.User;
+import com.senla.scooterrentalapp.exception.NoContentException;
 import com.senla.scooterrentalapp.mapper.UserMapper;
 import com.senla.scooterrentalapp.service.UserService;
 import lombok.AllArgsConstructor;
@@ -23,13 +24,8 @@ public class UserRestController {
 
     @GetMapping(value = "{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Long id) throws NoContentException {
         User result = userService.findById(id);
-
-        if (result == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
         return new ResponseEntity<>(userMapper.UserDtoFromUser(result), HttpStatus.OK);
     }
 
@@ -37,11 +33,6 @@ public class UserRestController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<UserDto>> getAll() {
         List<User> users = userService.getAll();
-
-        if (users == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
         return new ResponseEntity<>(users.stream().map(userMapper::UserDtoFromUser).collect(Collectors.toList()), HttpStatus.OK);
     }
 

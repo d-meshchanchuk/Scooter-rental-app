@@ -1,6 +1,7 @@
 package com.senla.scooterrentalapp.service;
 
 import com.senla.scooterrentalapp.entity.user.User;
+import com.senla.scooterrentalapp.exception.NoContentException;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    User findById(Long id);
+    User findById(Long id) throws NoContentException;
 
     User save(User user);
 

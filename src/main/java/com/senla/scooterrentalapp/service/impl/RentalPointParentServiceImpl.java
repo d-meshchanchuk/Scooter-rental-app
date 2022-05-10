@@ -2,6 +2,7 @@ package com.senla.scooterrentalapp.service.impl;
 
 import com.senla.scooterrentalapp.dto.rentalpoint.RentalPointParentDto;
 import com.senla.scooterrentalapp.entity.rentalpoint.RentalPointParent;
+import com.senla.scooterrentalapp.exception.NoContentException;
 import com.senla.scooterrentalapp.mapper.RentalPointParentMapper;
 import com.senla.scooterrentalapp.repository.RentalPointParentRepository;
 import com.senla.scooterrentalapp.service.RentalPointParentService;
@@ -42,12 +43,12 @@ public class RentalPointParentServiceImpl implements RentalPointParentService {
     }
 
     @Override
-    public RentalPointParentDto findById(Long id) {
+    public RentalPointParentDto findById(Long id) throws NoContentException {
         RentalPointParent rentalPointParent = rentalPointParentRepository.findById(id).orElse(null);
 
         if (rentalPointParent == null) {
             log.warn("IN findById - no rentalPointParent found by id: {}", id);
-            return null;
+            throw new NoContentException();
         }
 
         RentalPointParentDto result = rentalPointParentMapper.fromRentalPointParent(rentalPointParent);

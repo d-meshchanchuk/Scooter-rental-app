@@ -1,6 +1,7 @@
 package com.senla.scooterrentalapp.rest;
 
 import com.senla.scooterrentalapp.dto.rentalpoint.RentalPointParentDto;
+import com.senla.scooterrentalapp.exception.NoContentException;
 import com.senla.scooterrentalapp.service.RentalPointParentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,24 +19,14 @@ public class RentalPointParentRestController {
     private final RentalPointParentService rentalPointParentService;
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<RentalPointParentDto> getRentalPointById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<RentalPointParentDto> getRentalPointById(@PathVariable(name = "id") Long id) throws NoContentException {
         RentalPointParentDto result = rentalPointParentService.findById(id);
-
-        if (result == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping()
     public ResponseEntity<List<RentalPointParentDto>> getAll() {
         List<RentalPointParentDto> result = rentalPointParentService.findAll();
-
-        if (result == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

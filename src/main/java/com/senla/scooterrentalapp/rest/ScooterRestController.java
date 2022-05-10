@@ -22,11 +22,6 @@ public class ScooterRestController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<ScooterDto> getScooterById(@PathVariable(name = "id") Long id) throws NoContentException {
         ScooterDto result = scooterService.findById(id);
-
-        if (result == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

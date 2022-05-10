@@ -2,6 +2,7 @@ package com.senla.scooterrentalapp.rest;
 
 import com.senla.scooterrentalapp.dto.scooter.ScootersInfoDto;
 import com.senla.scooterrentalapp.entity.Status;
+import com.senla.scooterrentalapp.exception.NoContentException;
 import com.senla.scooterrentalapp.service.ScootersInfoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,13 +21,8 @@ public class ScootersInfoRestController {
 
     @GetMapping(value = "{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<ScootersInfoDto> getScootersInfoById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<ScootersInfoDto> getScootersInfoById(@PathVariable(name = "id") Long id) throws NoContentException {
         ScootersInfoDto result = scootersInfoService.findById(id);
-
-        if (result == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -38,22 +34,12 @@ public class ScootersInfoRestController {
             case ("rentalPoint") -> scootersInfoService.findByRentalPointId(id);
             default -> scootersInfoService.findAll();
         };
-
-        if (result == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "getByStatus/{status}")
     public ResponseEntity<List<ScootersInfoDto>> getScootersInfoByStatus(@PathVariable(name = "status") Status status) {
         List<ScootersInfoDto> result = scootersInfoService.findByStatus(status);
-
-        if (result == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -61,11 +47,6 @@ public class ScootersInfoRestController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<ScootersInfoDto>> getAll() {
         List<ScootersInfoDto> result = scootersInfoService.findAll();
-
-        if (result == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

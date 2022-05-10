@@ -19,23 +19,17 @@ import java.util.List;
 public class OrderRestController {
 
     private final OrderService orderService;
-    private final UserService userService;
 
     @GetMapping(value = "{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<OrderDto> getOrderById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<OrderDto> getOrderById(@PathVariable(name = "id") Long id) throws NoContentException {
         OrderDto result = orderService.findById(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "get/{id}")
-    public ResponseEntity<List<OrderDto>> OrderByUser(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<List<OrderDto>> OrderByUserId(@PathVariable(name = "id") Long id) {
         List<OrderDto> result = orderService.findByUserId(id);
-
-        if (result == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -43,11 +37,6 @@ public class OrderRestController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<OrderDto>> getAll() {
         List<OrderDto> result = orderService.findAll();
-
-        if (result == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -62,5 +51,4 @@ public class OrderRestController {
         orderService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }
