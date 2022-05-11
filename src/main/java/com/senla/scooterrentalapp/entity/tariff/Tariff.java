@@ -29,7 +29,7 @@ public class Tariff {
     public String toString() {
         return "Tariff{" +
                 "id: " + id + ", " +
-                "name: " + name +
+                "name: " + name + ", " +
                 "hours: " + hours + "}";
     }
 }

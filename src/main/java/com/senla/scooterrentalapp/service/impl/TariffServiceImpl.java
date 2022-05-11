@@ -7,6 +7,7 @@ import com.senla.scooterrentalapp.mapper.TariffMapper;
 import com.senla.scooterrentalapp.repository.TariffRepository;
 import com.senla.scooterrentalapp.service.TariffService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
