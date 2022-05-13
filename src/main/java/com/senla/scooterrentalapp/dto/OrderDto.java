@@ -5,17 +5,11 @@ import com.senla.scooterrentalapp.dto.scooter.ScooterDto;
 import com.senla.scooterrentalapp.dto.tariff.TariffDto;
 import com.senla.scooterrentalapp.dto.user.UserDto;
 import com.senla.scooterrentalapp.entity.Status;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class OrderDto {
     private Long id;
     private TariffDto tariff;

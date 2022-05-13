@@ -1,6 +1,5 @@
 package com.senla.scooterrentalapp.dto.tariff;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
