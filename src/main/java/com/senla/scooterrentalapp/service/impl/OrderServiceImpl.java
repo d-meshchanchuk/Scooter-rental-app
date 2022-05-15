@@ -31,7 +31,7 @@ public class OrderServiceImpl implements OrderService {
         calculatePrice(order);
         orderRepository.save(order);
         log.info("IN save - order: {} successfully created", order);
-        return orderDto;
+        return orderMapper.fromOrder(order);
     }
 
     @Override

@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +22,17 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SpringBootTest
 class TariffServiceImplTest {
 
-    TariffRepository repository = Mockito.mock(TariffRepository.class);
+    @MockBean
+    TariffRepository repository;
+
     TariffMapper tariffMapper = new TariffMapperImpl();
-    TariffService service = new TariffServiceImpl(repository, tariffMapper);
+
+    @Autowired
+    TariffService service;
+
     List<Tariff> tariffs = new ArrayList<>();
 
     @Test

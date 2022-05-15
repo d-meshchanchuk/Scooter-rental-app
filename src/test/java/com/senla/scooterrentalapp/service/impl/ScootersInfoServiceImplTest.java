@@ -13,6 +13,9 @@ import com.senla.scooterrentalapp.service.ScootersInfoService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +24,22 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SpringBootTest
 class ScootersInfoServiceImplTest {
 
-    ScootersInfoRepository scootersInfoRepository = Mockito.mock(ScootersInfoRepository.class);
-    ScooterRepository scooterRepository = Mockito.mock(ScooterRepository.class);
-    RentalPointRepository rentalPointRepository = Mockito.mock(RentalPointRepository.class);
+    @MockBean
+    ScootersInfoRepository scootersInfoRepository;
+
+    @MockBean
+    ScooterRepository scooterRepository;
+
+    @MockBean
+    RentalPointRepository rentalPointRepository;
 
     ScootersInfoMapper scootersInfoMapper = new ScootersInfoMapperImpl();
 
-    ScootersInfoService service = new ScootersInfoServiceImpl(scootersInfoRepository, scooterRepository, rentalPointRepository, scootersInfoMapper);
+    @Autowired
+    ScootersInfoService service;
 
     Scooter scooter = Scooter.builder()
             .id(1L)
@@ -81,7 +91,6 @@ class ScootersInfoServiceImplTest {
         Mockito.when(scootersInfoRepository.findByScooter(scooter)).thenReturn(scootersInfoList);
         Mockito.when(scooterRepository.getById(id)).thenReturn(scooter);
         List<ScootersInfoDto> result = service.findByScooterId(scooter.getId());
-        System.out.println(result);
         Mockito.verify(scootersInfoRepository, Mockito.times(1)).findByScooter(scooter);
         assertEquals(scootersInfoList.stream().map(scootersInfoMapper::fromScootersInfo).collect(Collectors.toList()), result);
     }

@@ -1,13 +1,19 @@
 package com.senla.scooterrentalapp.entity.tariff;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tariffs")
-@Data
 public class Tariff {
 
     @Id

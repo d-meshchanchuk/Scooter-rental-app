@@ -16,6 +16,9 @@ import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "orders")
 @EntityListeners(AuditingEntityListener.class)

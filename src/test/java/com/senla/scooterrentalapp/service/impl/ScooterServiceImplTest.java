@@ -9,6 +9,9 @@ import com.senla.scooterrentalapp.service.ScooterService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +20,16 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SpringBootTest
 class ScooterServiceImplTest {
 
-    ScooterRepository repository = Mockito.mock(ScooterRepository.class);
+    @MockBean
+    ScooterRepository repository;
+
     ScooterMapper scooterMapper = new ScooterMapperImpl();
-    ScooterService service = new ScooterServiceImpl(repository, scooterMapper);
+
+    @Autowired
+    ScooterService service;
     Scooter scooter = Scooter.builder()
             .id(1L)
             .model("test")
