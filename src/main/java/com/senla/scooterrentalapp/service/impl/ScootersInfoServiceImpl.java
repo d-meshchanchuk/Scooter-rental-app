@@ -12,6 +12,7 @@ import com.senla.scooterrentalapp.repository.ScooterRepository;
 import com.senla.scooterrentalapp.repository.ScootersInfoRepository;
 import com.senla.scooterrentalapp.service.ScootersInfoService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +20,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
 @Slf4j
-@AllArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class ScootersInfoServiceImpl implements ScootersInfoService {
 
     private final ScootersInfoRepository scootersInfoRepository;

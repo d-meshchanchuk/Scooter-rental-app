@@ -8,6 +8,7 @@ import com.senla.scooterrentalapp.repository.TariffRepository;
 import com.senla.scooterrentalapp.service.TariffService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
 @Slf4j
-@AllArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class TariffServiceImpl implements TariffService {
 
     private final TariffRepository tariffRepository;

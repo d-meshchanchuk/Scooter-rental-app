@@ -7,6 +7,7 @@ import com.senla.scooterrentalapp.mapper.RentalPointMapper;
 import com.senla.scooterrentalapp.repository.RentalPointRepository;
 import com.senla.scooterrentalapp.service.RentalPointService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +15,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
 @Slf4j
-@AllArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class RentalPointServiceImpl implements RentalPointService {
 
     private final RentalPointRepository rentalPointRepository;

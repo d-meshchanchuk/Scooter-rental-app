@@ -5,6 +5,7 @@ import com.senla.scooterrentalapp.entity.user.User;
 import com.senla.scooterrentalapp.security.jwt.JwtTokenProvider;
 import com.senla.scooterrentalapp.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-@AllArgsConstructor
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/api/auth/")
 public class AuthenticationRestController {
 

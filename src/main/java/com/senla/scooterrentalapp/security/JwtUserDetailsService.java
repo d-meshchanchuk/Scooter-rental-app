@@ -4,6 +4,7 @@ import com.senla.scooterrentalapp.entity.user.User;
 import com.senla.scooterrentalapp.security.jwt.JwtUser;
 import com.senla.scooterrentalapp.security.jwt.JwtUserFactory;
 import com.senla.scooterrentalapp.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,16 +12,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service
 @Slf4j
+@Service
+@RequiredArgsConstructor
 public class JwtUserDetailsService implements UserDetailsService {
 
     private final UserService userService;
-
-    @Autowired
-    public JwtUserDetailsService(UserService userService) {
-        this.userService = userService;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
