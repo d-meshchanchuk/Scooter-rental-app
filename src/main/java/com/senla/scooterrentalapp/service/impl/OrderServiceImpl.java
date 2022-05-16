@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,14 +59,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto findById(Long id) throws NoContentException {
-        Order order = orderRepository.findById(id).orElse(null);
+        Optional<Order> order = orderRepository.findById(id);
 
-        if (order == null) {
+        if (order.isEmpty()) {
             log.warn("IN findById - no order found by id: {}", id);
             throw new NoContentException();
         }
 
-        OrderDto result = orderMapper.fromOrder(order);
+        OrderDto result = orderMapper.fromOrder(order.get());
 
         log.info("IN findById - order: {} found by id: {}", result, id);
         return result;

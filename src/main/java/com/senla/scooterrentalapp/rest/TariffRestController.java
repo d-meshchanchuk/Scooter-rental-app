@@ -25,7 +25,7 @@ public class TariffRestController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<TariffDto>> getAll() throws NoContentException {
+    public ResponseEntity<List<TariffDto>> getAll() {
         List<TariffDto> tariffs = tariffService.findAll();
         return new ResponseEntity<>(tariffs, HttpStatus.OK);
     }

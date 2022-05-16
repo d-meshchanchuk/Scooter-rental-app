@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,14 +47,14 @@ public class TariffServiceImpl implements TariffService {
 
     @Override
     public TariffDto findById(Long id) throws NoContentException {
-        Tariff tariff = tariffRepository.findById(id).orElse(null);
+        Optional<Tariff> tariff = tariffRepository.findById(id);
 
-        if (tariff == null) {
+        if (tariff.isEmpty()) {
             log.warn("IN findById - no tariff found by id: {}", id);
             throw new NoContentException();
         }
 
-        TariffDto result = tariffMapper.fromTariff(tariff);
+        TariffDto result = tariffMapper.fromTariff(tariff.get());
 
         log.info("IN findById - tariff: {} found by id: {}", result, id);
         return result;

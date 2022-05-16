@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -66,15 +67,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) throws NoContentException {
-        User result = userRepository.findById(id).orElse(null);
+        Optional<User> result = userRepository.findById(id);
 
-        if (result == null) {
+        if (result.isEmpty()) {
             log.warn("IN findById - no user found by id: {}", id);
             throw new NoContentException();
         }
 
         log.info("IN findById - user: {} found by id: {}", result, id);
-        return result;
+        return result.get();
     }
 
     @Override

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,14 +46,14 @@ public class RentalPointServiceImpl implements RentalPointService {
 
     @Override
     public RentalPointDto findById(Long id) throws NoContentException {
-        RentalPoint rentalPoint = rentalPointRepository.findById(id).orElse(null);
+        Optional<RentalPoint> rentalPoint = rentalPointRepository.findById(id);
 
-        if (rentalPoint == null) {
+        if (rentalPoint.isEmpty()) {
             log.warn("IN findById - no rentalPoint found by id: {}", id);
             throw new NoContentException();
         }
 
-        RentalPointDto result = rentalPointMapper.fromRentalPoint(rentalPoint);
+        RentalPointDto result = rentalPointMapper.fromRentalPoint(rentalPoint.get());
 
         log.info("IN findById - rentalPoint: {} found by id: {}", result, id);
         return result;

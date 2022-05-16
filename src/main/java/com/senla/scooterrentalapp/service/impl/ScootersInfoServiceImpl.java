@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,14 +45,14 @@ public class ScootersInfoServiceImpl implements ScootersInfoService {
 
     @Override
     public ScootersInfoDto findById(Long id) throws NoContentException {
-        ScootersInfo scootersInfo = scootersInfoRepository.findById(id).orElse(null);
+        Optional<ScootersInfo> scootersInfo = scootersInfoRepository.findById(id);
 
-        if (scootersInfo == null) {
+        if (scootersInfo.isEmpty()) {
             log.warn("IN findById - no scootersInfo found by id: {}", id);
             throw new NoContentException();
         }
 
-        ScootersInfoDto result = scootersInfoMapper.fromScootersInfo(scootersInfo);
+        ScootersInfoDto result = scootersInfoMapper.fromScootersInfo(scootersInfo.get());
 
         log.info("IN findById - scootersInfo: {} found by id: {}", result, id);
         return result;

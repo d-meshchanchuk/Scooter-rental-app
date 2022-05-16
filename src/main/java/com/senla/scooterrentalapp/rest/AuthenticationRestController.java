@@ -33,7 +33,7 @@ public class AuthenticationRestController {
     private final UserService userService;
 
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestBody AuthenticationRequestDto requestDto) throws UsernameNotFoundException {
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequestDto requestDto) throws UsernameNotFoundException { //todo
         try {
             String username = requestDto.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestDto.getUsername(), requestDto.getPassword()));

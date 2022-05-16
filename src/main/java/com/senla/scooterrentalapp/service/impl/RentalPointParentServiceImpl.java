@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,14 +45,14 @@ public class RentalPointParentServiceImpl implements RentalPointParentService {
 
     @Override
     public RentalPointParentDto findById(Long id) throws NoContentException {
-        RentalPointParent rentalPointParent = rentalPointParentRepository.findById(id).orElse(null);
+        Optional<RentalPointParent> rentalPointParent = rentalPointParentRepository.findById(id);
 
-        if (rentalPointParent == null) {
+        if (rentalPointParent.isEmpty()) {
             log.warn("IN findById - no rentalPointParent found by id: {}", id);
             throw new NoContentException();
         }
 
-        RentalPointParentDto result = rentalPointParentMapper.fromRentalPointParent(rentalPointParent);
+        RentalPointParentDto result = rentalPointParentMapper.fromRentalPointParent(rentalPointParent.get());
 
         log.info("IN findById - rentalPointParent: {} found by id: {}", result, id);
         return result;
