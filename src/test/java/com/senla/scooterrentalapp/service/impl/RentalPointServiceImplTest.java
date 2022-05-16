@@ -9,6 +9,7 @@ import com.senla.scooterrentalapp.mapper.RentalPointMapper;
 import com.senla.scooterrentalapp.mapper.RentalPointMapperImpl;
 import com.senla.scooterrentalapp.mapper.ScooterMapper;
 import com.senla.scooterrentalapp.mapper.ScooterMapperImpl;
+import com.senla.scooterrentalapp.repository.OrderRepository;
 import com.senla.scooterrentalapp.repository.RentalPointRepository;
 import com.senla.scooterrentalapp.repository.ScooterRepository;
 import com.senla.scooterrentalapp.service.RentalPointService;
@@ -27,16 +28,11 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 class RentalPointServiceImplTest {
 
-    @MockBean
-    RentalPointRepository repository;
-
+    RentalPointRepository repository = Mockito.mock(RentalPointRepository .class);
     RentalPointMapper rentalPointMapper = new RentalPointMapperImpl();
-
-    @Autowired
-    RentalPointService service;
+    RentalPointService service = new RentalPointServiceImpl(repository, rentalPointMapper);
 
     RentalPointParent rentalPointParent = RentalPointParent.builder()
             .id(1L)

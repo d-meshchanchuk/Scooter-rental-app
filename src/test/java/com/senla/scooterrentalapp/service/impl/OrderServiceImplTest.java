@@ -34,19 +34,12 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 class OrderServiceImplTest {
 
-    @MockBean
-    OrderRepository repository;
-
-    @MockBean
-    UserRepository userRepository;
-
+    OrderRepository repository = Mockito.mock(OrderRepository.class);
+    UserRepository userRepository = Mockito.mock(UserRepository.class);
     OrderMapper orderMapper = new OrderMapperImpl();
-
-    @Autowired
-    OrderService service;
+    OrderService service = new OrderServiceImpl(repository, userRepository, orderMapper);
 
     Scooter scooter = Scooter.builder()
             .id(1L)

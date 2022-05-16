@@ -20,16 +20,12 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
 class ScooterServiceImplTest {
 
-    @MockBean
-    ScooterRepository repository;
-
+    ScooterRepository repository = Mockito.mock(ScooterRepository.class);
     ScooterMapper scooterMapper = new ScooterMapperImpl();
+    ScooterService service = new ScooterServiceImpl(repository, scooterMapper);
 
-    @Autowired
-    ScooterService service;
     Scooter scooter = Scooter.builder()
             .id(1L)
             .model("test")

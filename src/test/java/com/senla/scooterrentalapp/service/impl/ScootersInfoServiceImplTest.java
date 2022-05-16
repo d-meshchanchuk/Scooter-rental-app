@@ -24,22 +24,14 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
+
 class ScootersInfoServiceImplTest {
 
-    @MockBean
-    ScootersInfoRepository scootersInfoRepository;
-
-    @MockBean
-    ScooterRepository scooterRepository;
-
-    @MockBean
-    RentalPointRepository rentalPointRepository;
-
+    ScootersInfoRepository scootersInfoRepository = Mockito.mock(ScootersInfoRepository.class);
+    ScooterRepository scooterRepository = Mockito.mock(ScooterRepository.class);;
+    RentalPointRepository rentalPointRepository = Mockito.mock(RentalPointRepository.class);;
     ScootersInfoMapper scootersInfoMapper = new ScootersInfoMapperImpl();
-
-    @Autowired
-    ScootersInfoService service;
+    ScootersInfoService service = new ScootersInfoServiceImpl(scootersInfoRepository, scooterRepository, rentalPointRepository, scootersInfoMapper);
 
     Scooter scooter = Scooter.builder()
             .id(1L)
