@@ -10,8 +10,8 @@
 	</parent>
 	<groupId>com.senla</groupId>
 	<artifactId>scooterrentalapp</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<version>1</version>
+	<packaging>jar</packaging>
 	<name>ScooterRentalApp</name>
 	<description>This is the final project in the senla course</description>
 	<properties>
